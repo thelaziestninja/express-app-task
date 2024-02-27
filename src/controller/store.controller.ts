@@ -1,0 +1,179 @@
+// app.get("/store", (req, res) => {
+//     return res.status(200).json({ message: "Store", store });
+//   });
+
+import { store } from "../app";
+import logger from "../utils/logger";
+import {
+  EmptyRequest,
+  Request,
+  Response,
+  StoreResponse,
+} from "../types/request";
+import { StoreInput } from "../schema/store.schema";
+
+export async function GetStoreHandler(
+  req: Request<EmptyRequest>,
+  res: Response<StoreResponse>
+) {
+  try {
+    if (Object.keys(store).length > 0) {
+      logger.info("Get store requested and it's not empty");
+      return res.status(200).json({ message: "Giving store", store });
+    }
+    logger.info(`Store requested but it's empty`);
+    return res.status(400).json({ message: "Store is empty" });
+  } catch (e: any) {
+    logger.error("Error getting store", e);
+    return res.status(500).send(e.message);
+  }
+}
+
+export async function AddToStoreHandler(
+  req: Request<StoreInput["body"]>,
+  res: Response<StoreResponse>
+) {
+  try {
+    const { key, value, ttl } = req.body;
+    if (ttl && typeof ttl !== "number") {
+      logger.info(`TTL must be a number - ${ttl}`);
+      return res.status(400).json({ message: "TTL must be a number" });
+    }
+
+    store[key] = value;
+
+    if (ttl) {
+      setTimeout(() => {
+        delete store[key];
+      }, Number(ttl) * 1000);
+    }
+
+    logger.info(`Added key-value pair to store - ${key}:${value}`);
+    return res
+      .status(200)
+      .json({ message: "key-value pair added to store", store });
+  } catch (e: any) {
+    logger.error("Error adding key-value pair to store", e);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function GetKeyHandler(
+  req: Request<{ key: string }>,
+  res: Response<StoreResponse>
+) {
+  try {
+    const key = req.params.key;
+    if (store[key]) {
+      logger.info(`Key found in store - ${key}:${store[key]}`);
+      return res
+        .status(200)
+        .json({ message: "Key found in store", key, value: store[key] });
+    }
+    logger.info(`Key not found in store - ${key}`);
+    return res.status(400).json({ message: "Key not found in store" });
+  } catch (e: any) {
+    logger.error("Error getting key from store", e);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function DeleteKeyHandler(
+  req: Request<{ key: string }>,
+  res: Response<StoreResponse>
+) {
+  try {
+    const key = req.params.key;
+    if (store[key]) {
+      logger.info("User succesfully deleted key", key);
+      delete store[key];
+      return res.status(200).json({ message: "key deleted from store", store });
+    }
+    logger.info("User failed to delete key", key);
+    return res.status(400).json({ message: "Key not found in store", store });
+  } catch (e: any) {
+    logger.error("Error deleting key", e);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+// export async function createFeedbackHandler(
+//   req: Request<{ destinationId: string & createFeedbackInput["body"] }>,
+//   res: Response<FeedbackI | { error: string }>
+// ) {
+//   const destinationId = req.params.destinationId;
+//   const { feedback_text, left_by } = req.body;
+
+//   try {
+//     const destination = await getDestinationById(destinationId);
+
+//     if (!destination) {
+//       return res.status(404).send({ error: "Destination not existing!" });
+//     }
+
+//     const feedback = await createFeedback(
+//       destinationId,
+//       feedback_text,
+//       left_by
+//     );
+
+//     await feedback.save();
+
+//     // Construct the response object - not working due to type mismatch
+//     // const feedbackResponse: FeedbackI = {
+//     //   _id: feedback._id, // Feedback ID
+//     //   destination_id: feedback.destination_id, // Associated Destination ID
+//     //   feedback_text: feedback.feedback_text, // Feedback Text
+//     //   left_by: feedback.left_by, // Left By
+//     //   feedback_date: feedback.feedback_date, // Feedback Date
+//     // };
+
+//     res.status(201).json(feedback);
+//   } catch (e: any) {
+//     logger.error(e);
+//     res.status(500).send(e.message);
+//   }
+// }
+
+// export async function getFeedbackHandler(
+//   req: Request<{ destinationId: string }>,
+//   res: Response<FeedbackI[] | { error: string }>
+// ) {
+//   try {
+//     const destinationId = req.params.destinationId;
+//     const destination = await getDestinationById(destinationId);
+//     if (!destination) {
+//       return res.status(404).send({ error: "Destination not existing!" });
+//     }
+//     const feedback = await getFeedbacks(destinationId);
+//     if (!feedback) {
+//       return res.status(404).send({ error: "Feedback not existing!" });
+//     }
+
+//     res.status(200).send(feedback);
+//   } catch (e: any) {
+//     logger.error(e);
+//     res.status(500).send(e.message);
+//   }
+// }
+
+// export async function deleteFeedbackHandler(
+//   req: Request<{ id: string }>,
+//   res: Response<FeedbackI | { error: string } | { message: string }>
+// ) {
+//   try {
+//     const { id } = req.params;
+
+//     const feedback = await deleteFeedback(id);
+//     if (!feedback) {
+//       return res.status(404).send({ error: "Feedback not existing!" });
+//     }
+
+//     res
+//       .status(200)
+//       .json({ message: `Feedback with ID: ${feedback._id} has been deleted.` });
+//   } catch (e: any) {
+//     logger.error(e);
+//     res.status(500).send(e.message);
+//   }
+// }
