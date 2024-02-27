@@ -31,11 +31,10 @@ export async function AddToStoreHandler(
 ) {
   try {
     const { key, value, ttl } = req.body;
-    if (ttl && typeof ttl !== "number") {
-      logger.info(`TTL must be a number - ${ttl}`);
-      return res.status(400).json({ message: "TTL must be a number" });
+    if (Object.keys(store).length > 2) {
+      logger.info("Store Overflowed, can't add more keys");
+      return res.status(400).json({ message: "Store is full" });
     }
-
     store[key] = value;
 
     if (ttl) {
