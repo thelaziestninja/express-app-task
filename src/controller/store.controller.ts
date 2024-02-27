@@ -30,11 +30,12 @@ export async function AddToStoreHandler(
   res: Response<StoreResponse>
 ) {
   try {
-    const { key, value, ttl } = req.body;
-    if (Object.keys(store).length > 2) {
+    if (Object.keys(store).length >= 200) {
       logger.info("Store Overflowed, can't add more keys");
       return res.status(400).json({ message: "Store is full" });
     }
+
+    const { key, value, ttl } = req.body;
     store[key] = value;
 
     if (ttl) {

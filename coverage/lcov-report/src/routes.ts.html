@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">46.15% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/12</span>
+                <span class='fraction'>6/13</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">46.15% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/12</span>
+                <span class='fraction'>6/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -126,7 +126,18 @@
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -139,7 +150,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -184,6 +200,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -201,8 +223,13 @@ import {
   DeleteKeyHandler,
   GetKeyHandler,
   GetStoreHandler,
+  UpdateKeyHandler,
 } from "./controller/store.controller";
-import { StoreQueryParams, StoreSchema } from "./schema/store.schema";
+import {
+  StoreQueryParams,
+  StoreSchema,
+  UpdateKeySchema,
+} from "./schema/store.schema";
 &nbsp;
 function <span class="fstat-no" title="function not covered" >routes(</span>app: Express) {
   // app.get("/destination", getDestinationsHandler);
@@ -247,8 +274,14 @@ function <span class="fstat-no" title="function not covered" >routes(</span>app:
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  app.get("/store", GetStoreHandler); </span>// here it doesn't need to validate the request body / query params / path params as it's a GET request
 <span class="cstat-no" title="statement not covered" >  app.post("/store", validate(StoreSchema), AddToStoreHandler);</span>
-<span class="cstat-no" title="statement not covered" >  app.get("/store/key/:key", validate(StoreQueryParams), GetKeyHandler);</span>
-<span class="cstat-no" title="statement not covered" >  app.delete("/store/:key", validate(StoreQueryParams), DeleteKeyHandler);</span>
+<span class="cstat-no" title="statement not covered" >  app.patch(</span>
+    "/store/key/:key",
+    validate(StoreQueryParams),
+    validate(UpdateKeySchema),
+    UpdateKeyHandler
+  );
+<span class="cstat-no" title="statement not covered" >  app.get("/store/key/:key", validate(StoreQueryParams), GetKeyHandler); </span>// here it doesn't need to validate the request body / query params / path params as it's a GET request
+<span class="cstat-no" title="statement not covered" >  app.delete("/store/:key", validate(StoreQueryParams), DeleteKeyHandler); </span>// here it doesn't need to validate the request body / query params / path params as it's a GET request
 }
 &nbsp;
 export default routes;
@@ -259,7 +292,7 @@ export default routes;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-02-27T12:01:30.236Z
+                at 2024-02-27T13:37:08.351Z
             </div>
         <script src="../prettify.js"></script>
         <script>
