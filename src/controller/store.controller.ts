@@ -6,7 +6,7 @@ import {
   Response,
   StoreResponse,
 } from "../types/request";
-import { StoreInput } from "../schema/store.schema";
+import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
 
 export async function GetStoreHandler(
   req: Request<EmptyRequest>,
@@ -70,6 +70,35 @@ export async function GetKeyHandler(
     return res.status(400).json({ message: "Key not found in store" });
   } catch (e: any) {
     logger.error("Error getting key from store", e);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function UpdateKeyHandler(
+  req: Request<UpdateKeyInput["body"]>,
+  res: Response<StoreResponse>
+) {
+  try {
+    const { value, ttl } = req.body;
+    const key = req.params.key;
+
+    if (store[key]) {
+      store[key] = value;
+      if (ttl) {
+        setTimeout(() => {
+          delete store[key];
+        }, Number(ttl) * 1000);
+      }
+      logger.info(`Updated key-value pair in store - ${key}:${value}`);
+      return res
+        .status(200)
+        .json({ message: "key-value pair updated in store", store });
+    }
+
+    logger.info(`Key not found in store - ${key}`);
+    return res.status(400).json({ message: "Key not found in store" });
+  } catch (e: any) {
+    logger.error("Error updating key-value pair in store", e);
     return res.status(500).json({ message: "Internal server error" });
   }
 }

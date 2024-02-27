@@ -10,8 +10,13 @@ import {
   DeleteKeyHandler,
   GetKeyHandler,
   GetStoreHandler,
+  UpdateKeyHandler,
 } from "./controller/store.controller";
-import { StoreQueryParams, StoreSchema } from "./schema/store.schema";
+import {
+  StoreQueryParams,
+  StoreSchema,
+  UpdateKeySchema,
+} from "./schema/store.schema";
 
 function routes(app: Express) {
   // app.get("/destination", getDestinationsHandler);
@@ -56,8 +61,14 @@ function routes(app: Express) {
 
   app.get("/store", GetStoreHandler); // here it doesn't need to validate the request body / query params / path params as it's a GET request
   app.post("/store", validate(StoreSchema), AddToStoreHandler);
-  app.get("/store/key/:key", validate(StoreQueryParams), GetKeyHandler);
-  app.delete("/store/:key", validate(StoreQueryParams), DeleteKeyHandler);
+  app.patch(
+    "/store/key/:key",
+    validate(StoreQueryParams),
+    validate(UpdateKeySchema),
+    UpdateKeyHandler
+  );
+  app.get("/store/key/:key", validate(StoreQueryParams), GetKeyHandler); // here it doesn't need to validate the request body / query params / path params as it's a GET request
+  app.delete("/store/:key", validate(StoreQueryParams), DeleteKeyHandler); // here it doesn't need to validate the request body / query params / path params as it's a GET request
 }
 
 export default routes;
