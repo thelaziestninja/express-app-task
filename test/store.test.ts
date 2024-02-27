@@ -2,6 +2,7 @@ import express from "express";
 import request from "supertest";
 import { Express } from "express";
 import { store } from "../src/app";
+import logger from "../src/utils/logger";
 import { createServer, Server } from "http";
 import { validate } from "../src/middleware/validate";
 import {
@@ -16,7 +17,7 @@ describe("Store Operations", () => {
   let app: Express;
   let server: Server;
 
-  beforeAll((done) => {
+  beforeAll(async () => {
     app = express();
     server = createServer(app);
 
@@ -27,11 +28,9 @@ describe("Store Operations", () => {
     app.get("/store/key/:key", validate(StoreQueryParams), GetKeyHandler);
     app.delete("/store/:key", validate(StoreQueryParams), DeleteKeyHandler);
 
-    server = createServer(app).listen(0, () => {
-      const address = server.address();
-      const port = typeof address === "string" ? address : address?.port;
-      console.log(`Test server listening on port ${port}`);
-      done();
+    server.listen(3002, () => {
+      logger.info("Server listening on port 3002");
+      console.log("Server listening on port 3002");
     });
   });
 

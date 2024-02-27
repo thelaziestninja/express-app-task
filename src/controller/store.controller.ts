@@ -1,7 +1,3 @@
-// app.get("/store", (req, res) => {
-//     return res.status(200).json({ message: "Store", store });
-//   });
-
 import { store } from "../app";
 import logger from "../utils/logger";
 import {

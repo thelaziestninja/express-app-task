@@ -2,6 +2,7 @@ import express from "express";
 import request from "supertest";
 import { Express } from "express";
 import { stack } from "../src/app";
+import logger from "../src/utils/logger";
 import { createServer, Server } from "http";
 import { validate } from "../src/middleware/validate";
 import { StackSchema } from "../src/schema/stack.schema";
@@ -23,10 +24,9 @@ describe("Stack Operations", () => {
     app.post("/stack", validate(StackSchema), AddToStackHandler);
     app.get("/stack", PopFromStackHandler);
 
-    server.listen(0, () => {
-      console.log(
-        `Test server listening on port ${(server.address() as any).port}`
-      );
+    server.listen(3001, () => {
+      logger.info("Server listening on port 3001");
+      console.log("Server listening on port 3001");
     });
   });
 
@@ -35,7 +35,6 @@ describe("Stack Operations", () => {
   });
 
   beforeEach(() => {
-    // Reset the stack and clear mock calls before each test
     stack.length = 0;
     jest.clearAllMocks();
   });
