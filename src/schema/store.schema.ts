@@ -1,9 +1,5 @@
 import { number, object, string, TypeOf, z } from "zod";
 
-export type Store = { [key: string]: string };
-
-export const store: Store = {};
-
 export const StoreSchema = object({
   body: object({
     key: string({

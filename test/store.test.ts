@@ -64,7 +64,7 @@ describe("Store Operations", () => {
   });
 
   it("should get the store", async () => {
-    store.testKey = "testValue";
+    store.testKey = { value: "testValue" };
 
     const response = await request(app).get("/store");
 
@@ -73,7 +73,7 @@ describe("Store Operations", () => {
   });
 
   it("should get a key from the store", async () => {
-    store.testKey = "testValue";
+    store.testKey = { value: "testValue" };
 
     const response = await request(app).get("/store/key/testKey");
 
@@ -84,7 +84,7 @@ describe("Store Operations", () => {
   });
 
   it("should update a key in the store", async () => {
-    store.testKey = "testValue";
+    store.testKey = { value: "testValue" };
 
     const response = await request(app)
       .patch("/store/key/testKey")
@@ -96,7 +96,7 @@ describe("Store Operations", () => {
   });
 
   it("should delete a key from the store", async () => {
-    store.testKey = "testValue";
+    store.testKey = { value: "testValue" };
 
     const response = await request(app).delete("/store/testKey");
 

@@ -14,6 +14,12 @@ export async function GetStoreHandler(
 ) {
   try {
     if (Object.keys(store).length > 0) {
+      Object.keys(store).forEach((key) => {
+        if (typeof store[key] === "object") {
+          store[key].usage = (store[key].usage || 0) + 1;
+        }
+      });
+
       logger.info("Get store requested and it's not empty");
       return res.status(200).json({ message: "Giving store", store });
     }
@@ -36,7 +42,16 @@ export async function AddToStoreHandler(
     }
 
     const { key, value, ttl } = req.body;
-    store[key] = value;
+
+    if (!store[key]) {
+      store[key] = { value };
+    } else {
+      store[key].value = value;
+    }
+
+    // console.log("Keys of the store: ", Object.keys(store));
+    // console.log("Values of the store: ", Object.values(store));
+    // console.log("Entries of the store: ", Object.entries(store)); // array of key-value pairs
 
     if (ttl) {
       setTimeout(() => {
@@ -61,10 +76,14 @@ export async function GetKeyHandler(
   try {
     const key = req.params.key;
     if (store[key]) {
-      logger.info(`Key found in store - ${key}:${store[key]}`);
-      return res
-        .status(200)
-        .json({ message: "Key found in store", key, value: store[key] });
+      store[key].usage = (store[key].usage || 0) + 1;
+      logger.info(`Key found in store - ${key}:${store[key].value}`);
+      return res.status(200).json({
+        message: "Key found in store",
+        key,
+        value: store[key].value,
+        usage: store[key].usage,
+      });
     }
     logger.info(`Key not found in store - ${key}`);
     return res.status(400).json({ message: "Key not found in store" });
@@ -82,8 +101,11 @@ export async function UpdateKeyHandler(
     const { value, ttl } = req.body;
     const key = req.params.key;
 
-    if (store[key]) {
-      store[key] = value;
+    if (!store[key]) {
+      store[key] = { value };
+    } else {
+      store[key].value = value;
+      store[key].usage = (store[key].usage || 0) + 1;
       if (ttl) {
         setTimeout(() => {
           delete store[key];

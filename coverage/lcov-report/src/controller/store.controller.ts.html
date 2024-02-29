@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60.65% </span>
+                <span class="strong">58.2% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>37/61</span>
+                <span class='fraction'>39/67</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/7</span>
+                <span class='fraction'>7/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/7</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60.65% </span>
+                <span class="strong">58.2% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>37/61</span>
+                <span class='fraction'>39/67</span>
             </div>
         
             
@@ -267,7 +267,17 @@
 <a name='L202'></a><a href='#L202'>202</a>
 <a name='L203'></a><a href='#L203'>203</a>
 <a name='L204'></a><a href='#L204'>204</a>
-<a name='L205'></a><a href='#L205'>205</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -285,6 +295,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -307,7 +323,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -315,11 +340,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -487,6 +507,12 @@ export async function GetStoreHandler(
 ) {
   try {
     if (Object.keys(store).length &gt; 0) {
+      Object.keys(store).forEach((key) =&gt; {
+        if (typeof store[key] === "object") {
+          store[key].usage = (store[key].usage || 0) + 1;
+        }
+      });
+&nbsp;
       logger.info("Get store requested and it's not empty");
       return res.status(200).json({ message: "Giving store", store });
     }
@@ -509,21 +535,25 @@ export async function AddToStoreHandler(
     }
 &nbsp;
     const { key, value, ttl } = req.body;
-    store[key] = value;
+    store[key].value = value;
 &nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (ttl) {
+<span class="cstat-no" title="statement not covered" >    console.log("Keys of the store: ", Object.keys(store));</span>
+<span class="cstat-no" title="statement not covered" >    console.log("Values of the store: ", Object.values(store));</span>
+<span class="cstat-no" title="statement not covered" >    console.log("Entries of the store: ", Object.entries(store)); </span>// array of key-value pairs
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (ttl) {</span>
 <span class="cstat-no" title="statement not covered" >      setTimeout(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        delete store[key];</span>
       }, Number(ttl) * 1000);
     }
 &nbsp;
-    logger.info(`Added key-value pair to store - ${key}:${value}`);
-    return res
+<span class="cstat-no" title="statement not covered" >    logger.info(`Added key-value pair to store - ${key}:${value}`);</span>
+<span class="cstat-no" title="statement not covered" >    return res</span>
       .status(200)
       .json({ message: "key-value pair added to store", store });
   } catch (e: any) {
-<span class="cstat-no" title="statement not covered" >    logger.error("Error adding key-value pair to store", e);</span>
-<span class="cstat-no" title="statement not covered" >    return res.status(500).json({ message: "Internal server error" });</span>
+    logger.error("Error adding key-value pair to store", e);
+    return res.status(500).json({ message: "Internal server error" });
   }
 }
 &nbsp;
@@ -537,7 +567,7 @@ export async function GetKeyHandler(
       logger.info(`Key found in store - ${key}:${store[key]}`);
       return res
         .status(200)
-        .json({ message: "Key found in store", key, value: store[key] });
+        .json({ message: "Key found in store", key, value: store[key].value });
     }
 <span class="cstat-no" title="statement not covered" >    logger.info(`Key not found in store - ${key}`);</span>
 <span class="cstat-no" title="statement not covered" >    return res.status(400).json({ message: "Key not found in store" });</span>
@@ -556,7 +586,7 @@ export async function UpdateKeyHandler(
     const key = req.params.key;
 &nbsp;
     if (store[key]) {
-      store[key] = value;
+      store[key].value = value;
       <span class="missing-if-branch" title="if path not taken" >I</span>if (ttl) {
 <span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
 <span class="cstat-no" title="statement not covered" >          delete store[key];</span>
@@ -682,7 +712,7 @@ export async function DeleteKeyHandler(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-02-27T13:37:08.351Z
+                at 2024-02-29T10:50:34.325Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

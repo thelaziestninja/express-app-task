@@ -1,6 +1,11 @@
 export type Stack = string[];
 
-export type Store = { [key: string]: string };
+export type Store = {
+  [key: string]: { value: string; ttl?: number; usage?: number };
+};
+
+/* Objects in JSON are collections of key:value pairs, where the values in these pairs can be again any JSON Document. 
+JSON schemas that specify objects are called Object Schemas. The document {"type": "object"} */
 
 // export interface DestinationI extends Document {
 //   _id: string;
