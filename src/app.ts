@@ -4,7 +4,6 @@ import express from "express";
 import routes from "./routes";
 import logger from "./utils/logger";
 import { Stack, Store } from "./types";
-import { cleanupKeys } from "./middleware/cleanup";
 
 const port = config.get<number>("port");
 

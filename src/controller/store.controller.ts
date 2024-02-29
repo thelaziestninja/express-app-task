@@ -7,6 +7,7 @@ import {
   StoreResponse,
 } from "../types/request";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
+import { maxKeys } from "../middleware/cleanup";
 
 export async function GetStoreHandler(
   req: Request<EmptyRequest>,
@@ -36,7 +37,7 @@ export async function AddToStoreHandler(
   res: Response<StoreResponse>
 ) {
   try {
-    if (Object.keys(store).length >= 200) {
+    if (Object.keys(store).length >= maxKeys) {
       logger.info("Store Overflowed, can't add more keys");
       return res.status(400).json({ message: "Store is full" });
     }

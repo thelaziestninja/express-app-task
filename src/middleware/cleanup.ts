@@ -3,6 +3,8 @@ import { ZodError } from "zod";
 import logger from "../utils/logger";
 import { Request, Response, NextFunction } from "express";
 
+export const maxKeys = 5;
+
 //higher order function that takes a Zod schema (AnyZodObject) as an argument and returns middleware for Express.
 export const cleanupKeys = async (
   req: Request,
