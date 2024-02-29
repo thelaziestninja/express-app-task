@@ -46,7 +46,8 @@ export async function AddToStoreHandler(
     if (!store[key]) {
       store[key] = { value };
     } else {
-      store[key].value = value;
+      logger.info(`Key already exists in store - ${key}`);
+      return res.status(400).json({ message: "Key already exists in store" });
     }
 
     // console.log("Keys of the store: ", Object.keys(store));
@@ -102,7 +103,8 @@ export async function UpdateKeyHandler(
     const key = req.params.key;
 
     if (!store[key]) {
-      store[key] = { value };
+      logger.info(`Key not found in store - ${key}`);
+      return res.status(400).json({ message: "Key not found in store" });
     } else {
       store[key].value = value;
       store[key].usage = (store[key].usage || 0) + 1;
@@ -117,8 +119,8 @@ export async function UpdateKeyHandler(
         .json({ message: "key-value pair updated in store", store });
     }
 
-    logger.info(`Key not found in store - ${key}`);
-    return res.status(400).json({ message: "Key not found in store" });
+    // logger.info(`Key not found in store - ${key}`);
+    // return res.status(400).json({ message: "Key not found in store" });
   } catch (e: any) {
     logger.error("Error updating key-value pair in store", e);
     return res.status(500).json({ message: "Internal server error" });

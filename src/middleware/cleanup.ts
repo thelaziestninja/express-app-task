@@ -23,6 +23,11 @@ export const cleanupKeys = async (
     let sortedKeys: string[] = [];
 
     if (totalKeys >= maxKeys * threshold) {
+      logger.info(
+        `Cleanup triggered as total keys are greater than or equal to ${
+          maxKeys * threshold
+        }`
+      );
       sortedKeys = Object.keys(store).sort((a, b) => {
         // logger.info(`Sorting keys based on usage: ${a}, ${b}`);
         return (store[a].usage ?? 0) - (store[b].usage ?? 0); // usage or undefined. if undefined, then it 0
