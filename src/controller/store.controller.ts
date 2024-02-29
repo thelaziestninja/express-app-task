@@ -131,6 +131,7 @@ export async function DeleteKeyHandler(
 ) {
   try {
     const key = req.params.key;
+
     if (store[key]) {
       logger.info("User succesfully deleted key", key);
       delete store[key];

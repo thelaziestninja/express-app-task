@@ -1,5 +1,5 @@
-import { AnyZodObject, ZodError } from "zod";
 import logger from "../utils/logger";
+import { AnyZodObject, ZodError } from "zod";
 import { Request, Response, NextFunction } from "express";
 
 //higher order function that takes a Zod schema (AnyZodObject) as an argument and returns middleware for Express.
@@ -24,8 +24,8 @@ export const validate =
         return res.status(400).send({ msg: e.issues[0].message });
       }
 
-      logger.error(`Error in validation request body middleware: ${e.message}`);
-      return res.status(400).send(e.errors);
+      logger.error(`Error in validation middleware: ${e.message}`);
+      return res.status(500).send(e.message);
     }
   };
 
