@@ -41,4 +41,5 @@ export type StoreResponse = {
   key?: string;
   value?: string;
   count?: number;
+  created_at?: Date;
 };
