@@ -1,13 +1,16 @@
-import { store } from "../app";
-import logger from "../utils/logger";
+import { Store } from "../types";
+
 import {
   EmptyRequest,
   Request,
   Response,
   StoreResponse,
 } from "../types/request";
+import logger from "../utils/logger";
 import { maxKeys } from "../../config/default";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
+
+export const store: Store = {};
 
 export async function GetStoreHandler(
   req: Request<EmptyRequest>,

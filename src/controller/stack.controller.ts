@@ -1,4 +1,4 @@
-import { stack } from "../app";
+import { Stack } from "../types";
 import logger from "../utils/logger";
 import { StackInput } from "../schema/stack.schema";
 import {
@@ -7,6 +7,8 @@ import {
   StackResponse,
   EmptyRequest,
 } from "../types/request";
+
+export const stack: Stack = [];
 
 export async function AddToStackHandler(
   req: Request<StackInput["body"]>,

@@ -3,7 +3,6 @@ import config from "config";
 import express from "express";
 import routes from "./routes";
 import logger from "./utils/logger";
-import { Stack, Store } from "./types";
 
 const port = config.get<number>("port");
 
@@ -16,10 +15,6 @@ app.use(
 );
 
 app.use(express.json());
-
-export const stack: Stack = [];
-
-export const store: Store = {};
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, async () => {
