@@ -17,7 +17,7 @@ export async function GetStoreHandler(
     if (Object.keys(store).length > 0) {
       Object.keys(store).forEach((key) => {
         if (typeof store[key] === "object") {
-          store[key].usage = (store[key].usage || 0) + 1;
+          store[key].count = (store[key].count || 0) + 1;
         }
       });
 
@@ -78,13 +78,13 @@ export async function GetKeyHandler(
   try {
     const key = req.params.key;
     if (store[key]) {
-      store[key].usage = (store[key].usage || 0) + 1;
+      store[key].count = (store[key].count || 0) + 1;
       logger.info(`Key found in store - ${key}:${store[key].value}`);
       return res.status(200).json({
         message: "Key found in store",
         key,
         value: store[key].value,
-        usage: store[key].usage,
+        count: store[key].count,
       });
     }
     logger.info(`Key not found in store - ${key}`);
@@ -108,7 +108,7 @@ export async function UpdateKeyHandler(
       return res.status(400).json({ message: "Key not found in store" });
     } else {
       store[key].value = value;
-      store[key].usage = (store[key].usage || 0) + 1;
+      store[key].count = (store[key].count || 0) + 1;
       if (ttl) {
         setTimeout(() => {
           delete store[key];

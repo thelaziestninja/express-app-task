@@ -23,4 +23,18 @@ The additional task is:
 2. New restriction. I have max 200 keys and to remove the ones that are not being used.
    --- I made changes the AddToStoreHandler (if >= maxKeys ) adding is not allowed. This allows me to have insurance instead of adding middleware to the router.
 
-   --- added a property to the store type so that their usage is counted. After that a new middleware will check their usage and if it exceeds the threshold it cleanup starts running and it deletes the ones with the smallest usage or if the is no usage it deletes the oldest one by default.
+   --- added a property to the store type so that their count is counted. After that a new middleware will check their count and if it exceeds the threshold it cleanup starts running and it deletes the ones with the smallest count or if the is no count it deletes the oldest one by default.
+
+The additional additional task:
+
+Edgecase:1
+
+What do if both both are on count 0?
+default rn deletes the closest to letter "a"
+USE CREATED AT AND THE OLDEST AND LEAST USED
+
+Edgecase: 2
+Is there an alternative way of the code so that cleanup runs po nqkuv pereiod ot vreme.
+
+What are cons and pros.
+I kakva e razlikata mejdu dvata koda.

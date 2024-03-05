@@ -37,8 +37,8 @@ export type StackResponse = {
 
 export type StoreResponse = {
   message: string;
-  store?: { [key: string]: { value: string; ttl?: number; usage?: number } };
+  store?: { [key: string]: { value: string; ttl?: number; count?: number } };
   key?: string;
   value?: string;
-  usage?: number;
+  count?: number;
 };

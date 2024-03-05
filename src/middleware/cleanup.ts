@@ -31,8 +31,8 @@ export const cleanupKeys = async (
         }`
       );
       sortedKeys = Object.keys(store).sort((a, b) => {
-        // logger.info(`Sorting keys based on usage: ${a}, ${b}`);
-        return (store[a].usage ?? 0) - (store[b].usage ?? 0); // usage or undefined. if undefined, then it 0
+        // logger.info(`Sorting keys based on count: ${a}, ${b}`);
+        return (store[a].count ?? 0) - (store[b].count ?? 0); // count or undefined. if undefined, then it 0
       });
 
       const keysToDelete = totalKeys - maxKeys;
