@@ -37,7 +37,8 @@ export async function AddToStoreHandler(
   res: Response<StoreResponse>
 ) {
   try {
-    if (Object.keys(store).length >= maxKeys) {
+    if (Object.keys(store).length >= 200) {
+      // or maxKeys
       logger.info("Store Overflowed, can't add more keys");
       return res.status(400).json({ message: "Store is full" });
     }

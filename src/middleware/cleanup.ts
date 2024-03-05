@@ -4,7 +4,7 @@ import logger from "../utils/logger";
 import { Request, Response, NextFunction } from "express";
 
 export const maxKeys = 5;
-
+export const threshold = 0.8; // 80%
 //higher order function that takes a Zod schema (AnyZodObject) as an argument and returns middleware for Express.
 export const cleanupKeys = async (
   req: Request,
@@ -15,8 +15,6 @@ export const cleanupKeys = async (
     logger.info("Cleaning up keys in store");
 
     const totalKeys = Object.keys(store).length;
-    const maxKeys = 5;
-    const threshold = 0.8;
 
     logger.info(
       `Total keys in store: ${totalKeys}, max keys allowed: ${maxKeys}`
@@ -31,8 +29,17 @@ export const cleanupKeys = async (
         }`
       );
       sortedKeys = Object.keys(store).sort((a, b) => {
-        // logger.info(`Sorting keys based on count: ${a}, ${b}`);
-        return store[a].created_at.getTime() - store[b].created_at.getTime(); // count or undefined. if undefined, then it 0
+        logger.info(`Sorting keys based on least used count: ${a}, ${b}`);
+        // return store[a].created_at.getTime() - store[b].created_at.getTime(); // count or undefined. if undefined, then it 0
+        if ((store[a].count ?? 0) !== (store[b].count ?? 0)) {
+          return (store[a].count ?? 0) - (store[b].count ?? 0);
+        } else {
+          logger.info(
+            `Sorting keys based on created_at timestamp (oldest first): ${a}, ${b}`
+          );
+
+          return store[a].created_at.getTime() - store[b].created_at.getTime();
+        }
       });
 
       const keysToDelete = totalKeys - maxKeys;
