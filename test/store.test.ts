@@ -60,20 +60,24 @@ describe("Store Operations", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.message).toEqual("key-value pair added to store");
-    expect(response.body.store).toEqual({ testKey: "testValue" });
+    expect(response.body.store).toEqual({
+      testKey: { value: "testValue", created_at: expect.any(String) },
+    });
   });
 
   it("should get the store", async () => {
-    store.testKey = { value: "testValue" };
+    store.testKey = { value: "testValue", created_at: new Date(), count: 1 };
 
     const response = await request(app).get("/store");
 
     expect(response.status).toBe(200);
-    expect(response.body.store).toEqual({ testKey: "testValue" });
+    expect(response.body.store).toEqual({
+      testKey: { value: "testValue", created_at: expect.any(String), count: 2 },
+    });
   });
 
   it("should get a key from the store", async () => {
-    store.testKey = { value: "testValue" };
+    store.testKey = { value: "testValue", created_at: new Date() };
 
     const response = await request(app).get("/store/key/testKey");
 
@@ -84,7 +88,7 @@ describe("Store Operations", () => {
   });
 
   it("should update a key in the store", async () => {
-    store.testKey = { value: "testValue" };
+    store.testKey = { value: "testValue", created_at: new Date(), count: 1 };
 
     const response = await request(app)
       .patch("/store/key/testKey")
@@ -92,11 +96,17 @@ describe("Store Operations", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.message).toEqual("key-value pair updated in store");
-    expect(response.body.store).toEqual({ testKey: "updatedValue" });
+    expect(response.body.store).toEqual({
+      testKey: {
+        value: "updatedValue",
+        created_at: expect.any(String),
+        count: 2,
+      },
+    });
   });
 
   it("should delete a key from the store", async () => {
-    store.testKey = { value: "testValue" };
+    store.testKey = { value: "testValue", created_at: new Date() };
 
     const response = await request(app).delete("/store/testKey");
 

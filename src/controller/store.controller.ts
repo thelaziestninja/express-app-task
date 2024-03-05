@@ -6,8 +6,8 @@ import {
   Response,
   StoreResponse,
 } from "../types/request";
+import { maxKeys } from "../../config/default";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
-import { maxKeys } from "../middleware/cleanup";
 
 export async function GetStoreHandler(
   req: Request<EmptyRequest>,
@@ -37,31 +37,23 @@ export async function AddToStoreHandler(
   res: Response<StoreResponse>
 ) {
   try {
-    if (Object.keys(store).length >= 200) {
-      // or maxKeys
+    if (Object.keys(store).length >= maxKeys) {
+      // or 200
       logger.info("Store Overflowed, can't add more keys");
       return res.status(400).json({ message: "Store is full" });
     }
-
     const { key, value, ttl } = req.body;
-
     if (!store[key]) {
       store[key] = { value, created_at: new Date() };
     } else {
       logger.info(`Key already exists in store - ${key}`);
       return res.status(400).json({ message: "Key already exists in store" });
     }
-
-    // console.log("Keys of the store: ", Object.keys(store));
-    // console.log("Values of the store: ", Object.values(store));
-    // console.log("Entries of the store: ", Object.entries(store)); // array of key-value pairs
-
     if (ttl) {
       setTimeout(() => {
         delete store[key];
       }, Number(ttl) * 1000);
     }
-
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res
       .status(200)
@@ -104,7 +96,6 @@ export async function UpdateKeyHandler(
   try {
     const { value, ttl } = req.body;
     const key = req.params.key;
-
     if (!store[key]) {
       logger.info(`Key not found in store - ${key}`);
       return res.status(400).json({ message: "Key not found in store" });
@@ -121,9 +112,6 @@ export async function UpdateKeyHandler(
         .status(200)
         .json({ message: "key-value pair updated in store", store });
     }
-
-    // logger.info(`Key not found in store - ${key}`);
-    // return res.status(400).json({ message: "Key not found in store" });
   } catch (e: any) {
     logger.error("Error updating key-value pair in store", e);
     return res.status(500).json({ message: "Internal server error" });
@@ -136,7 +124,6 @@ export async function DeleteKeyHandler(
 ) {
   try {
     const key = req.params.key;
-
     if (store[key]) {
       logger.info("User succesfully deleted key", key);
       delete store[key];

@@ -2,7 +2,8 @@ import logger from "../utils/logger";
 import { AnyZodObject, ZodError } from "zod";
 import { Request, Response, NextFunction } from "express";
 
-//higher order function that takes a Zod schema (AnyZodObject) as an argument and returns middleware for Express.
+// higher order function that takes a Zod schema (AnyZodObject) as an argument and returns middleware for Express.
+
 export const validate =
   (schema: AnyZodObject) =>
   async (req: Request, res: Response, next: NextFunction) => {
@@ -28,27 +29,3 @@ export const validate =
       return res.status(500).send(e.message);
     }
   };
-
-// export const validateQuery =
-//   (schema: AnyZodObject) =>
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       logger.info("Validating request params");
-//       schema.parse({
-//         params: req.params,
-//       });
-//       next();
-//     } catch (e: any) {
-//       if (e instanceof ZodError) {
-//         logger.error(
-//           `Zod Error in validation request query middleware: ${e.issues[0].message}`
-//         );
-//         return res.status(400).send({ msg: e.issues[0].message });
-//       }
-
-//       logger.error(
-//         `Error in validation request query middleware: ${e.message}`
-//       );
-//       return res.status(400).send(e.errors);
-//     }
-//   };

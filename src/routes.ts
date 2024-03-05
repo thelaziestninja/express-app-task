@@ -32,13 +32,8 @@ function routes(app: Express) {
     validate(UpdateKeySchema),
     UpdateKeyHandler
   );
-  app.get(
-    "/store/key/:key",
-    cleanupKeys,
-    validate(StoreQueryParams),
-    GetKeyHandler
-  ); // here it doesn't need to validate the request body / query params / path params as it's a GET request
-  app.delete("/store/:key", validate(StoreQueryParams), DeleteKeyHandler); // here it doesn't need to validate the request body / query params / path params as it's a GET request
+  app.get("/store/key/:key", cleanupKeys, GetKeyHandler); // here it doesn't need to validate the request body / query params / path params as it's a GET request
+  app.delete("/store/:key", DeleteKeyHandler); // here it doesn't need to validate the request body / query params / path params as it's a DELETE request
 }
 
 export default routes;
