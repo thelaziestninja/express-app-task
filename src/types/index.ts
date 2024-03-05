@@ -1,7 +1,12 @@
 export type Stack = string[];
 
 export type Store = {
-  [key: string]: { value: string; ttl?: number; count?: number };
+  [key: string]: {
+    value: string;
+    ttl?: number;
+    count?: number;
+    created_at: Date;
+  };
 };
 
 /* Objects in JSON are collections of key:value pairs, where the values in these pairs can be again any JSON Document. 

@@ -29,9 +29,8 @@ The additional additional task:
 
 Edgecase:1
 
-What do if both both are on count 0?
-default rn deletes the closest to letter "a"
-USE CREATED AT AND THE OLDEST AND LEAST USED
+What do we do if count of more than one are equal 0? (default rn deletes the closest to the letter "a")
+_USE CREATED AT AND THE OLDEST AND LEAST USED_
 
 Edgecase: 2
 Is there an alternative way of the code so that cleanup runs po nqkuv pereiod ot vreme.

@@ -1,4 +1,4 @@
-import { object, string, array, TypeOf } from "zod";
+import { object, string, TypeOf } from "zod";
 
 export const StackSchema = object({
   body: object({

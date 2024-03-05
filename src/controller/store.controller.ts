@@ -45,7 +45,7 @@ export async function AddToStoreHandler(
     const { key, value, ttl } = req.body;
 
     if (!store[key]) {
-      store[key] = { value };
+      store[key] = { value, created_at: new Date() };
     } else {
       logger.info(`Key already exists in store - ${key}`);
       return res.status(400).json({ message: "Key already exists in store" });
