@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 
 // higher order function that takes a Zod schema (AnyZodObject) as an argument and returns middleware for Express.
 
-export const validate =
+export const validateRequestData =
   (schema: AnyZodObject) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -1,5 +1,3 @@
-export default {
-  port: 3000,
-};
-export const maxKeys: number = 5;
-export const threshold: number = 0.8;
+export const port: number = 3000 || process.env.PORT;
+export const maxKeys: number = 5 || process.env.MAX_KEYS;
+export const threshold: number = 0.8 || process.env.THRESHOLD;
