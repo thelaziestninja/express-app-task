@@ -149,6 +149,15 @@ describe("Store Operations", () => {
   });
 
   it("should delete a key from the store", async () => {
+    const itemToAdd = { key: "testKey", value: "testValue" };
+    const firstResponse = await request(app).post("/store").send(itemToAdd);
+
+    expect(firstResponse.status).toBe(201);
+    expect(firstResponse.body.message).toEqual("key-value pair added to store");
+    expect(firstResponse.body.store).toEqual({
+      testKey: { value: "testValue", created_at: expect.any(String) },
+    });
+
     store.testKey = { value: "testValue", created_at: new Date() };
 
     const response = await request(app).delete("/store/testKey");
