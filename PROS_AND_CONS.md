@@ -1,6 +1,6 @@
 # PROS
 
-1. Code is simple and well structured. Files are well seperated and the structure with controller ->middleware ->routes ->app seems to be easily readable. Code provides granuallity.
+1. Code is simple and well structured. Files are well seperated and the structure with controller ->middleware ->routes ->app seems to be easily readable. Code provides granuallity and can be usefull if the application grows.
 
 2. Sequence while adding in the store (GetStoreHandler): handler -> middleware -> route. The handler has hardcoded logic to check if more keys can be added. This way we take additional code that would have been added in the validate middleware and this way we don't have to call cleanup middleware while adding. It makes the request faster.
 
