@@ -56,23 +56,21 @@ export async function PopFromStackHandler(
   res: Response<StackResponse>
 ) {
   try {
-    if (stack.length < 0) {
+    if (stack.length <= 0) {
       logger.info("Stack length is less than 0, stack underflow error");
       return res
         .status(ResponseStatus.BadRequest)
         .json({ message: "Stack Underflow", stack, stackLength: stack.length });
     }
 
-    if (stack.length > 0) {
-      const item = stack.pop();
-      logger.info(`Pop item from stack - ${item}`);
-      return res.status(ResponseStatus.Success).json({
-        message: "Item popped from stack",
-        item,
-        stack,
-        stackLength: stack.length,
-      });
-    }
+    const item = stack.pop();
+    logger.info(`Pop item from stack - ${item}`);
+    return res.status(ResponseStatus.Success).json({
+      message: "Item popped from stack",
+      item,
+      stack,
+      stackLength: stack.length,
+    });
   } catch (e: any) {
     logger.info("Error popping item from stack", e);
     return res.status(ResponseStatus.InternalServerError).json({

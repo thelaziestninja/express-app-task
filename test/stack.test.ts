@@ -1,15 +1,15 @@
 import express from "express";
 import request from "supertest";
 import { Express } from "express";
-import { stack } from "../src/app";
 import logger from "../src/utils/logger";
 import { createServer, Server } from "http";
-import { validate } from "../src/middleware/validate";
+import { validateRequestData } from "../src/middleware/validate";
 import { StackSchema } from "../src/schema/stack.schema";
 import {
   AddToStackHandler,
   PopFromStackHandler,
 } from "../src/controller/stack.controller";
+import { stack } from "../src/controller/stack.controller";
 
 describe("Stack Operations", () => {
   let app: Express;
@@ -21,7 +21,7 @@ describe("Stack Operations", () => {
 
     app.use(express.json());
 
-    app.post("/stack", validate(StackSchema), AddToStackHandler);
+    app.post("/stack", validateRequestData(StackSchema), AddToStackHandler);
     app.get("/stack", PopFromStackHandler);
 
     server.listen(3001, () => {
@@ -50,7 +50,13 @@ describe("Stack Operations", () => {
   });
 
   it("should pop an item from the stack", async () => {
-    stack.push("testItem");
+    const itemToAdd = { item: "testItem" };
+    const firstResponse = await request(app).post("/stack").send(itemToAdd);
+
+    expect(firstResponse.status).toBe(200);
+    expect(firstResponse.body.message).toEqual("Item added to stack");
+    expect(firstResponse.body.stack).toContain("testItem");
+    expect(firstResponse.body.stackLength).toBe(1);
 
     const response = await request(app).get("/stack");
 

@@ -12,14 +12,22 @@ import {
   GetStoreHandler,
   UpdateKeyHandler,
 } from "./controller/store.controller";
-import { StoreParams, StoreSchema } from "./schema/store.schema";
+import {
+  StoreParams,
+  StoreQueryParams,
+  StoreSchema,
+} from "./schema/store.schema";
 import { cleanupKeys } from "./middleware/cleanup";
 
 function routes(app: Express) {
   app.post("/stack", validateRequestData(StackSchema), AddToStackHandler);
   app.get("/stack", PopFromStackHandler); // here it doesn't need to validate the request body / query params / path params as it's a GET request
 
-  app.get("/store", GetStoreHandler); // dev api
+  //hiding the dev api
+  if (process.env.NODE_ENV !== "production") {
+    app.get("/store", GetStoreHandler);
+  }
+
   app.post("/store", validateRequestData(StoreSchema), AddToStoreHandler);
   app.patch(
     "/store/:key",
@@ -28,7 +36,11 @@ function routes(app: Express) {
     UpdateKeyHandler
   );
   app.get("/store/:key", cleanupKeys, GetKeyHandler); // here it doesn't need to validate the request body / query params / path params as it's a GET request
-  app.delete("/store/:key", DeleteKeyHandler); // here it doesn't need to validate the request body / query params / path params as it's a DELETE request
+  app.delete(
+    "/store/:key",
+    validateRequestData(StoreQueryParams),
+    DeleteKeyHandler
+  ); // here it doesn't need to validate the request body / query params / path params as it's a DELETE request
 }
 
 export default routes;

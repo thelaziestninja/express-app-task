@@ -14,13 +14,13 @@ export const StoreSchema = object({
 
 export type StoreInput = TypeOf<typeof StoreSchema>;
 
-// export const StoreQueryParams = object({
-//   params: z.object({
-//     key: z.string({
-//       required_error: "Key in path string is required.",
-//     }),
-//   }),
-// });
+export const StoreQueryParams = object({
+  params: z.object({
+    key: z.string({
+      required_error: "Key in path string is required.",
+    }),
+  }),
+});
 
 export const UpdateKeySchema = object({
   body: object({
