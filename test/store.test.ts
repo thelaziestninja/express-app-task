@@ -121,6 +121,24 @@ describe("Store Operations", () => {
     expect(response.body.created_at).toEqual(expect.any(String));
   });
 
+  it("should not get a key from the store", async () => {
+    const itemWithTTLToAdd = { key: "testKey", value: "testValue", ttl: 1 };
+    const firstResponse = await request(app)
+      .post("/store")
+      .send(itemWithTTLToAdd);
+
+    expect(firstResponse.status).toBe(201);
+    expect(firstResponse.body.message).toEqual("key-value pair added to store");
+    expect(firstResponse.body.store).toEqual({
+      testKey: { value: "testValue", created_at: expect.any(String) },
+    });
+
+    const response = await request(app).get("/store/expiredKey");
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toEqual("Key not found in store");
+  });
+
   it("should update a key in the store", async () => {
     const itemToAdd = { key: "testKey", value: "testValue" };
     const firstResponse = await request(app).post("/store").send(itemToAdd);

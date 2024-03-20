@@ -37,3 +37,5 @@ Is there an alternative way of the code so that cleanup runs po nqkuv pereiod ot
 
 What are cons and pros.
 I kakva e razlikata mejdu dvata koda.
+
+CHECK SOLID PRINCIPLES!
