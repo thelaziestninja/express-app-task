@@ -6,5 +6,6 @@ export type Store = {
     ttl?: number;
     count?: number;
     created_at: Date;
+    timeoutId?: NodeJS.Timeout;
   };
 };

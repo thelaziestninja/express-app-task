@@ -50,20 +50,21 @@ export async function AddToStoreHandler(
 
     const { key, value, ttl } = req.body;
 
-    if (!store[key]) {
-      store[key] = { value, created_at: new Date() };
-    } else {
+    if (store[key]) {
       logger.info(`Key already exists in store - ${key}`);
       return res
         .status(ResponseStatus.BadRequest)
         .send({ message: "Key already exists in store" });
     }
 
+    let timeoutId = undefined;
     if (ttl) {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         delete store[key];
       }, Number(ttl) * 1000);
     }
+
+    store[key] = { value, created_at: new Date(), timeoutId };
 
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res
