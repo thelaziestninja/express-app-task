@@ -35,11 +35,29 @@ export type StackResponse = {
   item?: string;
 };
 
+export type Store = {
+  [key: string]: {
+    value: string;
+    ttl?: number;
+    count?: number;
+    created_at: Date;
+    timeoutId?: NodeJS.Timeout; // nz brat
+  };
+};
+
 export type StoreResponse = {
   message: string;
-  store?: { [key: string]: { value: string; ttl?: number; count?: number } };
+  store?: {
+    [key: string]: {
+      value: string;
+      count?: number;
+      created_at: Date;
+      ttl?: number;
+    };
+  };
   key?: string;
   value?: string;
+  ttl?: number;
   count?: number;
   created_at?: Date;
 };

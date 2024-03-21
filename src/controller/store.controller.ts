@@ -18,19 +18,20 @@ export async function GetStoreHandler(
   res: Response<StoreResponse>
 ) {
   try {
-    if (Object.keys(store).length > 0) {
-      logger.info("Store requested and it's not empty");
+    if (Object.keys(store).length <= 0) {
+      logger.info(`Store requested but it's empty`);
       return res
-        .status(ResponseStatus.Success)
-        .send({ message: "Current Store:", store });
+        .status(ResponseStatus.BadRequest)
+        .send({ message: "Store is empty", store });
     }
 
-    logger.info(`Store requested but it's empty`);
+    logger.info("Store requested and returning store");
     return res
-      .status(ResponseStatus.BadRequest)
-      .send({ message: "Store is empty", store });
+      .status(ResponseStatus.Success)
+      .send({ message: "Keys in store:", store });
   } catch (e: any) {
     logger.info("Error getting store", e);
+    console.log(e);
     return res.status(ResponseStatus.InternalServerError).send(e.message);
   }
 }
@@ -57,21 +58,28 @@ export async function AddToStoreHandler(
         .send({ message: "Key already exists in store" });
     }
 
-    let timeoutId = undefined;
+    let timeoutId: NodeJS.Timeout | undefined;
     if (ttl) {
       timeoutId = setTimeout(() => {
         delete store[key];
       }, Number(ttl) * 1000);
+      clearTimeout(store[key]?.timeoutId);
+      // console.log(`Timeout ID ${timeoutId} has been set`, timeoutId);
     }
 
-    store[key] = { value, created_at: new Date(), timeoutId };
+    store[key] = { value, created_at: new Date(), ttl, timeoutId };
 
     logger.info(`Added key-value pair to store - ${key}:${value}`);
-    return res
-      .status(ResponseStatus.Created)
-      .send({ message: "key-value pair added to store", store });
+    return res.status(ResponseStatus.Created).send({
+      message: "key-value pair added to store",
+      key,
+      value,
+      ttl,
+      created_at: store[key].created_at,
+    });
   } catch (e: any) {
     logger.info("Error adding key-value pair to store", e);
+    console.log(e);
     return res
       .status(ResponseStatus.InternalServerError)
       .send({ message: "Internal server error" });
