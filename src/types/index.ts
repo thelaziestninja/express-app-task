@@ -6,6 +6,6 @@ export type Store = {
     ttl?: number;
     count?: number;
     created_at: Date;
-    timeoutId?: NodeJS.Timeout;
+    timeoutId?: NodeJS.Timeout; // Type safety for timeoutId, setTimeout returns NodeJS.Timeout
   };
 };

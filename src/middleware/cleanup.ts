@@ -1,16 +1,16 @@
 import { ZodError } from "zod";
 import logger from "../utils/logger";
+import { store } from "../controller/store.controller";
 import { Request, Response, NextFunction } from "express";
 import { maxKeys, threshold } from "../../config/default";
-import { store } from "../controller/store.controller";
 
-const keySorting = async () => {
+const keySortingAndDeleting = async () => {
   try {
     const totalKeys = Object.keys(store).length;
 
-    logger.info(
-      `Total keys in store: ${totalKeys}, max keys allowed: ${maxKeys}`
-    );
+    // logger.info(
+    //   `Total keys in store: ${totalKeys}, max keys allowed: ${maxKeys}`
+    // );
 
     let sortedKeys: string[] = [];
 
@@ -20,6 +20,14 @@ const keySorting = async () => {
           maxKeys * threshold
         }`
       );
+
+      // logger.info(
+      //   totalKeys >= maxKeys * threshold
+      //     ? `Cleanup triggered as total keys(${totalKeys}) are greater than or equal to the max keys allowed(${
+      //         maxKeys * threshold
+      //       })`
+      //     : "No need to clean up keys"
+      // );
 
       sortedKeys = Object.keys(store).sort((a, b) => {
         // return store[a].created_at.getTime() - store[b].created_at.getTime(); // count or undefined. if undefined, then it 0
@@ -69,8 +77,8 @@ export const cleanupKeys = async (
   next: NextFunction
 ) => {
   try {
-    logger.info("Cleaning up keys in store called");
-    await keySorting();
+    logger.info("Started checking for keys to delete in store");
+    await keySortingAndDeleting();
 
     next();
   } catch (e: any) {

@@ -25,7 +25,7 @@ export async function GetStoreHandler(
         .send({ message: "Store is empty", store });
     }
 
-    logger.info("Store requested and returning store");
+    logger.info("Store requested, store returned");
     return res
       .status(ResponseStatus.Success)
       .send({ message: "Keys in store:", store });
@@ -64,7 +64,6 @@ export async function AddToStoreHandler(
         delete store[key];
       }, Number(ttl) * 1000);
       clearTimeout(store[key]?.timeoutId);
-      // console.log(`Timeout ID ${timeoutId} has been set`, timeoutId);
     }
 
     store[key] = { value, created_at: new Date(), ttl, timeoutId };
@@ -143,7 +142,7 @@ export async function UpdateKeyHandler(
     store[key].value = value;
     store[key].count = (store[key].count || 0) + 1;
 
-    if (store[key].ttl && ttl) {
+    if (store[key].timeoutId && ttl) {
       clearTimeout(store[key].ttl);
       setTimeout(() => {
         delete store[key];
