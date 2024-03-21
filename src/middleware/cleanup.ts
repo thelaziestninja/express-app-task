@@ -8,8 +8,19 @@ const sortKeysForCleanup = async () => {
   try {
     let sortedKeys: string[] = [];
     const totalKeys = Object.keys(store).length;
+    logger.info(
+      `Total keys in store: ${totalKeys}, max keys allowed: ${
+        maxKeys * threshold
+      }`
+    );
 
     if (totalKeys >= maxKeys * threshold) {
+      logger.info(
+        `Cleanup triggered as total keys are greater than or equal to ${
+          maxKeys * threshold
+        }`
+      );
+
       sortedKeys = Object.keys(store).sort((a, b) => {
         if ((store[a].count ?? 0) !== (store[b].count ?? 0)) {
           return (store[a].count ?? 0) - (store[b].count ?? 0);
@@ -28,13 +39,10 @@ const sortKeysForCleanup = async () => {
 const deleteKeys = async (keysToDelete: string[]) => {
   try {
     for (const keyToDelete of keysToDelete) {
-      logger.info(
-        `Deleting key: ${keyToDelete}, total keys deleted: ${keysToDelete.length}`
-      );
       delete store[keyToDelete];
     }
   } catch (e: any) {
-    logger.info(`Error in cleanUp logic / keySorting method: ${e.message}`);
+    logger.info(`Error in deleteKeys method: ${e.message}`);
   }
 };
 
@@ -52,19 +60,17 @@ export const cleanupKeys = async (
 
       for (const key of sortedKeys) {
         if (store[key].ttl) {
-          logger.info(`Skipping key(${key}) deletion as it has ttl set`);
+          // logger.info(`Skipping key(${key}) deletion as it has ttl set`);
           continue;
         }
 
         keysToDelete.push(key);
-        logger.info(`Key(${key}) added to delete list`);
+        // logger.info(`Key(${key}) added to delete list`);
         if (keysToDelete.length >= Object.keys(store).length - maxKeys) {
-          logger.info(
-            `Total keys to be deleted: ${keysToDelete.length}, breaking the loop`
-          );
           break;
         }
       }
+      logger.info(`Deleting Keys: ${keysToDelete.join(",")}`);
       await deleteKeys(keysToDelete);
     }
 
