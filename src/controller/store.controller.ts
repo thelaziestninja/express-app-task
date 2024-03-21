@@ -143,7 +143,7 @@ export async function UpdateKeyHandler(
     store[key].count = (store[key].count || 0) + 1;
 
     if (store[key].timeoutId && ttl) {
-      logger.info(`Clearing timeout for key - ${key}`);
+      // logger.info(`Clearing timeout for key - ${key}`);
       clearTimeout(store[key].timeoutId);
       setTimeout(() => {
         delete store[key];
