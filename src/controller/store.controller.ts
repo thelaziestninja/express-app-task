@@ -143,22 +143,28 @@ export async function UpdateKeyHandler(
     store[key].count = (store[key].count || 0) + 1;
 
     if (store[key].timeoutId && ttl) {
-      clearTimeout(store[key].ttl);
+      logger.info(`Clearing timeout for key - ${key}`);
+      clearTimeout(store[key].timeoutId);
       setTimeout(() => {
         delete store[key];
       }, Number(ttl) * 1000);
     }
 
     if (!store[key].ttl && ttl) {
-      setTimeout(() => {
+      store[key].timeoutId = setTimeout(() => {
         delete store[key];
       }, Number(ttl) * 1000);
     }
 
     logger.info(`Updated key-value pair in store - ${key}:${value}`);
-    return res
-      .status(ResponseStatus.Success)
-      .send({ message: "key-value pair updated in store", store });
+    return res.status(ResponseStatus.Success).send({
+      message: "key-value pair updated in store",
+      key,
+      value,
+      ttl,
+      count: store[key].count,
+      created_at: store[key].created_at,
+    });
   } catch (e: any) {
     logger.info("Error updating key-value pair in store", e);
     return res
