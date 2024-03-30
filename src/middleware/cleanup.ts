@@ -72,8 +72,36 @@ export const cleanupKeys = async (
       }
       logger.info(`Deleting Keys: ${keysToDelete.join(",")}`);
       await deleteKeys(keysToDelete);
-    }
 
+      // if keys still exceed the threshold, delete the least used and oldest keys with ttl
+
+      if (Object.keys(store).length >= maxKeys * threshold) {
+        const sortedKeysWithTTL = await sortKeysForCleanup();
+        if (sortedKeysWithTTL.length) {
+          const keysToDeleteWithTTL: string[] = [];
+
+          for (const key of keysToDeleteWithTTL) {
+            if (!store[key].timeoutId || keysToDelete.includes(key)) {
+              // logger.info(`Skipping key(${key}) deletion as it doesn't have ttl set`);
+              continue;
+            }
+
+            keysToDeleteWithTTL.push(key);
+            // logger.info(`Key(${key}) added to delete list`);
+            if (
+              keysToDeleteWithTTL.length >=
+              Object.keys(store).length - maxKeys
+            ) {
+              break;
+            }
+          }
+          logger.info(
+            `Deleting Keys with TTL: ${keysToDeleteWithTTL.join(",")}`
+          );
+          await deleteKeys(keysToDeleteWithTTL);
+        }
+      }
+    }
     next();
   } catch (e: any) {
     if (e instanceof ZodError) {
