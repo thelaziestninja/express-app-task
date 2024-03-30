@@ -10,38 +10,45 @@ import logger from "../utils/logger";
 import { maxKeys } from "../../config/default";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
 
-export const store: Store = {};
+export const storeWithTTL: Store = {};
+export const storeWithoutTTL: Store = {};
 
 //dev request
-export async function GetStoreHandler(
-  req: Request<EmptyRequest>,
-  res: Response<StoreResponse>
-) {
-  try {
-    if (Object.keys(store).length <= 0) {
-      logger.info(`Store requested but it's empty`);
-      return res
-        .status(ResponseStatus.BadRequest)
-        .send({ message: "Store is empty", store });
-    }
+// export async function GetStoresHandler(
+//   req: Request<EmptyRequest>,
+//   res: Response<StoreResponse>
+// ) {
+//   try {
+//     if (
+//       Object.keys(storeWithTTL).length + Object.keys(storeWithoutTTL).length <=
+//       0
+//     ) {
+//       logger.info(`Store requested but it's empty`);
+//       return res
+//         .status(ResponseStatus.BadRequest)
+//         .send({ message: "Store is empty", storeWithoutTTL, storeWithTTL });
+//     }
 
-    logger.info("Store requested, store returned");
-    return res
-      .status(ResponseStatus.Success)
-      .send({ message: "Keys in store:", store });
-  } catch (e: any) {
-    logger.info("Error getting store", e);
-    console.log(e);
-    return res.status(ResponseStatus.InternalServerError).send(e.message);
-  }
-}
+//     logger.info("Store requested, store returned");
+//     return res
+//       .status(ResponseStatus.Success)
+//       .send({ message: "Keys in store:", store });
+//   } catch (e: any) {
+//     logger.info("Error getting store", e);
+//     console.log(e);
+//     return res.status(ResponseStatus.InternalServerError).send(e.message);
+//   }
+// }
 
 export async function AddToStoreHandler(
   req: Request<StoreInput["body"]>,
   res: Response<StoreResponse>
 ) {
   try {
-    if (Object.keys(store).length >= maxKeys) {
+    if (
+      Object.keys(storeWithTTL).length + Object.keys(storeWithoutTTL).length >=
+      maxKeys
+    ) {
       // or 200
       logger.info("Store Overflowed, can't add more keys");
       return res
@@ -51,7 +58,7 @@ export async function AddToStoreHandler(
 
     const { key, value, ttl } = req.body;
 
-    if (store[key]) {
+    if (storeWithTTL[key] || storeWithoutTTL[key]) {
       logger.info(`Key already exists in store - ${key}`);
       return res
         .status(ResponseStatus.BadRequest)
@@ -61,12 +68,16 @@ export async function AddToStoreHandler(
     let timeoutId: NodeJS.Timeout | undefined;
     if (ttl) {
       timeoutId = setTimeout(() => {
-        delete store[key];
+        delete storeWithTTL[key];
       }, Number(ttl) * 1000);
-      clearTimeout(store[key]?.timeoutId);
+      clearTimeout(storeWithTTL[key]?.timeoutId);
     }
 
-    store[key] = { value, created_at: new Date(), ttl, timeoutId };
+    if (ttl) {
+      storeWithTTL[key] = { value, created_at: new Date(), ttl, timeoutId };
+    } else {
+      storeWithoutTTL[key] = { value, created_at: new Date(), ttl, timeoutId };
+    }
 
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res.status(ResponseStatus.Created).send({
@@ -74,7 +85,9 @@ export async function AddToStoreHandler(
       key,
       value,
       ttl,
-      created_at: store[key].created_at,
+      created_at: ttl
+        ? storeWithTTL[key].created_at
+        : storeWithoutTTL[key].created_at,
     });
   } catch (e: any) {
     logger.info("Error adding key-value pair to store", e);
@@ -92,22 +105,28 @@ export async function GetKeyHandler(
   try {
     const key = req.params.key;
 
-    if (!store[key]) {
+    const foundKey = storeWithTTL[key] || storeWithoutTTL[key];
+
+    if (!foundKey) {
       logger.info(`Key not found in store - ${key}`);
       return res
         .status(ResponseStatus.BadRequest)
         .send({ message: "Key not found in store" });
     }
 
-    store[key].count = (store[key].count || 0) + 1;
+    if (foundKey.ttl) {
+      storeWithTTL[key].count = (storeWithTTL[key].count || 0) + 1;
+    } else {
+      storeWithoutTTL[key].count = (storeWithoutTTL[key].count || 0) + 1;
+    }
 
-    logger.info(`Key found in store - ${key}:${store[key].value}`);
+    logger.info(`Key found in store - ${key}:${foundKey.value}`);
     return res.status(ResponseStatus.Success).send({
       message: "Key found in store",
       key,
-      value: store[key].value,
-      count: store[key].count,
-      created_at: store[key].created_at,
+      value: foundKey.value,
+      count: foundKey.count,
+      created_at: foundKey.created_at,
     });
   } catch (e: any) {
     logger.info("Error getting key from store", e);
@@ -125,34 +144,36 @@ export async function UpdateKeyHandler(
     const { value, ttl } = req.body;
     const key = req.params.key;
 
-    if (!store[key]) {
+    const foundKey = storeWithTTL[key] || storeWithoutTTL[key];
+
+    if (!foundKey) {
       logger.info(`Key not found in store - ${key}`);
       return res
         .status(ResponseStatus.BadRequest)
         .send({ message: "Key not found in store" });
     }
 
-    if (store[key] && store[key].ttl && Number(store[key].ttl) <= 4) {
+    if (foundKey.ttl && Number(foundKey.ttl) <= 4) {
       logger.info(`Key has a TTL of 4 seconds or less, cannot be updated.`);
       return res.status(ResponseStatus.BadRequest).send({
         message: "Key has a TTL of 4 seconds or less, cannot be updated",
       });
     }
 
-    store[key].value = value;
-    store[key].count = (store[key].count || 0) + 1;
+    foundKey.value = value;
+    foundKey.count = (foundKey.count || 0) + 1;
 
-    if (store[key].timeoutId && ttl) {
+    if (foundKey.timeoutId && ttl) {
       // logger.info(`Clearing timeout for key - ${key}`);
-      clearTimeout(store[key].timeoutId);
-      setTimeout(() => {
-        delete store[key];
+      clearTimeout(foundKey.timeoutId);
+      foundKey.timeoutId = setTimeout(() => {
+        delete foundKey.ttl ? storeWithTTL[key] : storeWithoutTTL[key];
       }, Number(ttl) * 1000);
     }
 
-    if (!store[key].ttl && ttl) {
-      store[key].timeoutId = setTimeout(() => {
-        delete store[key];
+    if (!foundKey.ttl && ttl) {
+      foundKey.timeoutId = setTimeout(() => {
+        delete storeWithoutTTL[key];
       }, Number(ttl) * 1000);
     }
 
@@ -162,8 +183,8 @@ export async function UpdateKeyHandler(
       key,
       value,
       ttl,
-      count: store[key].count,
-      created_at: store[key].created_at,
+      count: foundKey.count,
+      created_at: foundKey.created_at,
     });
   } catch (e: any) {
     logger.info("Error updating key-value pair in store", e);
@@ -180,18 +201,20 @@ export async function DeleteKeyHandler(
   try {
     const key = req.params.key;
 
-    if (!store[key]) {
+    const foundKey = storeWithTTL[key] || storeWithoutTTL[key];
+
+    if (!foundKey) {
       logger.info("User failed to delete key", key);
-      return res
-        .status(ResponseStatus.NotFound)
-        .send({ message: "Key not found in store", store });
+      return res.status(ResponseStatus.NotFound).send({
+        message: "Key not found in store",
+      });
     }
 
     logger.info("User succesfully deleted key", key);
-    delete store[key];
+    delete foundKey.ttl ? storeWithTTL[key] : storeWithoutTTL[key];
     return res
       .status(ResponseStatus.Success)
-      .send({ message: "key deleted from store", store });
+      .send({ message: "key deleted from store", key });
   } catch (e: any) {
     logger.info("Error deleting key", e);
     return res

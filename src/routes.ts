@@ -9,7 +9,7 @@ import {
   AddToStoreHandler,
   DeleteKeyHandler,
   GetKeyHandler,
-  GetStoreHandler,
+  // GetStoreHandler,
   UpdateKeyHandler,
 } from "./controller/store.controller";
 import {
@@ -24,18 +24,22 @@ function routes(app: Express) {
   app.get("/stack", PopFromStackHandler); // here it doesn't need to validate the request body / query params / path params as it's a GET request
 
   //hiding the dev api
-  if (process.env.NODE_ENV !== "production") {
-    app.get("/store", GetStoreHandler);
-  }
+  // if (process.env.NODE_ENV !== "production") {
+  //   app.get("/store", GetStoreHandler);
+  // }
 
   app.post("/store", validateRequestData(StoreSchema), AddToStoreHandler);
   app.patch(
     "/store/:key",
-    cleanupKeys,
+    // cleanupKeys,
     validateRequestData(StoreParams),
     UpdateKeyHandler
   );
-  app.get("/store/:key", cleanupKeys, GetKeyHandler); // here it doesn't need to validate the request body / query params / path params as it's a GET request
+  app.get(
+    "/store/:key",
+    // cleanupKeys,
+    GetKeyHandler
+  ); // here it doesn't need to validate the request body / query params / path params as it's a GET request
   app.delete(
     "/store/:key",
     validateRequestData(StoreQueryParams),

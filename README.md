@@ -39,3 +39,4 @@ What are cons and pros.
 I kakva e razlikata mejdu dvata koda.
 
 CHECK SOLID PRINCIPLES!
+Issue with UpdateKeyHandler, cleanup middleware needs rework

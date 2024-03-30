@@ -47,7 +47,15 @@ export type Store = {
 
 export type StoreResponse = {
   message: string;
-  store?: {
+  storeWithTTL?: {
+    [key: string]: {
+      value: string;
+      count?: number;
+      created_at: Date;
+      ttl?: number;
+    };
+  };
+  storeWithoutTTL?: {
     [key: string]: {
       value: string;
       count?: number;
