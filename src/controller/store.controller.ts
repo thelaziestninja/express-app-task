@@ -1,6 +1,5 @@
 import { Store } from "../types";
 import {
-  EmptyRequest,
   Request,
   Response,
   StoreResponse,
@@ -9,7 +8,6 @@ import {
 import logger from "../utils/logger";
 import { maxKeys } from "../../config/default";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
-import { clear } from "console";
 
 export const storeWithTTL: Store = {};
 export const storeWithoutTTL: Store = {};
@@ -74,11 +72,8 @@ export async function AddToStoreHandler(
       clearTimeout(storeWithTTL[key]?.timeoutId);
     }
 
-    if (ttl) {
-      storeWithTTL[key] = { value, created_at: new Date(), ttl, timeoutId };
-    } else {
-      storeWithoutTTL[key] = { value, created_at: new Date(), ttl, timeoutId };
-    }
+    const store = ttl ? storeWithTTL : storeWithoutTTL;
+    store[key] = { value, created_at: new Date(), ttl, timeoutId };
 
     console.log("storeWithTTL", storeWithTTL);
     console.log("storeWithoutTTL", storeWithoutTTL);
@@ -109,28 +104,24 @@ export async function GetKeyHandler(
   try {
     const key = req.params.key;
 
-    const foundKey = storeWithTTL[key] || storeWithoutTTL[key];
+    const foundItem = storeWithTTL[key] || storeWithoutTTL[key];
 
-    if (!foundKey) {
+    if (!foundItem) {
       logger.info(`Key not found in store - ${key}`);
       return res
         .status(ResponseStatus.BadRequest)
         .send({ message: "Key not found in store" });
     }
 
-    if (foundKey.ttl) {
-      storeWithTTL[key].count = (storeWithTTL[key].count || 0) + 1;
-    } else {
-      storeWithoutTTL[key].count = (storeWithoutTTL[key].count || 0) + 1;
-    }
+    foundItem.count = (foundItem.count || 0) + 1;
 
-    logger.info(`Key found in store - ${key}:${foundKey.value}`);
+    logger.info(`Key found in store - ${key}:${foundItem.value}`);
     return res.status(ResponseStatus.Success).send({
       message: "Key found in store",
       key,
-      value: foundKey.value,
-      count: foundKey.count,
-      created_at: foundKey.created_at,
+      value: foundItem.value,
+      count: foundItem.count,
+      created_at: foundItem.created_at,
     });
   } catch (e: any) {
     logger.info("Error getting key from store", e);
