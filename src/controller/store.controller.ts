@@ -9,6 +9,7 @@ import {
 import logger from "../utils/logger";
 import { maxKeys } from "../../config/default";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
+import { clear } from "console";
 
 export const storeWithTTL: Store = {};
 export const storeWithoutTTL: Store = {};
@@ -79,6 +80,9 @@ export async function AddToStoreHandler(
       storeWithoutTTL[key] = { value, created_at: new Date(), ttl, timeoutId };
     }
 
+    console.log("storeWithTTL", storeWithTTL);
+    console.log("storeWithoutTTL", storeWithoutTTL);
+
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res.status(ResponseStatus.Created).send({
       message: "key-value pair added to store",
@@ -144,38 +148,73 @@ export async function UpdateKeyHandler(
     const { value, ttl } = req.body;
     const key = req.params.key;
 
+    const foundKeyWithTTL = storeWithTTL[key];
+    const foundKeyWithoutTTL = storeWithoutTTL[key];
+
     const foundKey = storeWithTTL[key] || storeWithoutTTL[key];
 
-    if (!foundKey) {
+    if (!foundKeyWithTTL && !foundKeyWithoutTTL) {
       logger.info(`Key not found in store - ${key}`);
       return res
         .status(ResponseStatus.BadRequest)
         .send({ message: "Key not found in store" });
     }
 
-    if (foundKey.ttl && Number(foundKey.ttl) <= 4) {
+    if (
+      foundKeyWithTTL &&
+      foundKeyWithTTL.ttl &&
+      Number(foundKeyWithTTL.ttl) <= 4
+    ) {
       logger.info(`Key has a TTL of 4 seconds or less, cannot be updated.`);
       return res.status(ResponseStatus.BadRequest).send({
         message: "Key has a TTL of 4 seconds or less, cannot be updated",
       });
     }
 
-    foundKey.value = value;
-    foundKey.count = (foundKey.count || 0) + 1;
+    // case 1: update a key without ttl to a key without ttl with another value
+    // case 2: update a key with ttl to a key with (another) ttl with another value
+    // case 3: update a key without ttl to a key with ttl
+    // case 4: update a key with ttl to a key without ttl
 
-    if (foundKey.timeoutId && ttl) {
-      // logger.info(`Clearing timeout for key - ${key}`);
-      clearTimeout(foundKey.timeoutId);
-      foundKey.timeoutId = setTimeout(() => {
-        delete foundKey.ttl ? storeWithTTL[key] : storeWithoutTTL[key];
+    if (foundKeyWithoutTTL && !foundKeyWithTTL && !ttl) {
+      storeWithoutTTL[key].value = value;
+      storeWithoutTTL[key].count = (storeWithoutTTL[key].count || 0) + 1;
+    }
+
+    if (foundKeyWithTTL && !foundKeyWithoutTTL && ttl) {
+      storeWithTTL[key].value = value;
+      storeWithTTL[key].count = (storeWithTTL[key].count || 0) + 1;
+
+      clearTimeout(storeWithTTL[key].timeoutId);
+      storeWithTTL[key].timeoutId = setTimeout(() => {
+        delete storeWithTTL[key];
       }, Number(ttl) * 1000);
     }
 
-    if (!foundKey.ttl && ttl) {
-      foundKey.timeoutId = setTimeout(() => {
-        delete storeWithoutTTL[key];
-      }, Number(ttl) * 1000);
+    if (!foundKeyWithTTL && foundKeyWithoutTTL && ttl) {
+      storeWithTTL[key] = {
+        ...foundKeyWithoutTTL,
+        ttl,
+        count: (foundKeyWithoutTTL.count || 0) + 1,
+        timeoutId: setTimeout(() => {
+          delete storeWithTTL[key];
+        }, Number(ttl) * 1000),
+      };
+      delete storeWithoutTTL[key];
     }
+
+    if (foundKeyWithTTL && !foundKeyWithoutTTL && !ttl) {
+      // here I want to move the foundKeyWithTTL[key] to storeWithoutTTL
+      // and delete the foundKeyWithTTL[key]
+      storeWithoutTTL[key] = {
+        ...foundKeyWithTTL,
+        count: (foundKeyWithTTL.count || 0) + 1,
+      };
+      delete storeWithTTL[key];
+    }
+
+    console.log("storeWithTTL", storeWithTTL);
+    console.log("storeWithoutTTL", storeWithoutTTL);
 
     logger.info(`Updated key-value pair in store - ${key}:${value}`);
     return res.status(ResponseStatus.Success).send({
