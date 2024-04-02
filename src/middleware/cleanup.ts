@@ -4,38 +4,6 @@ import { Request, Response, NextFunction } from "express";
 import { maxKeys, threshold } from "../../config/default";
 import { storeWithTTL, storeWithoutTTL } from "../controller/store.controller";
 
-// const sortKeysForCleanup = async () => {
-//   try {
-//     let sortedKeys: string[] = [];
-//     const totalKeys = Object.keys(store).length;
-//     logger.info(
-//       `Total keys in store: ${totalKeys}, max keys allowed: ${
-//         maxKeys * threshold
-//       }`
-//     );
-
-//     if (totalKeys >= maxKeys * threshold) {
-//       logger.info(
-//         `Cleanup triggered as total keys are greater than or equal to ${
-//           maxKeys * threshold
-//         }`
-//       );
-
-//       sortedKeys = Object.keys(store).sort((a, b) => {
-//         if ((store[a].count ?? 0) !== (store[b].count ?? 0)) {
-//           return (store[a].count ?? 0) - (store[b].count ?? 0);
-//         } else {
-//           return store[a].created_at.getTime() - store[b].created_at.getTime();
-//         }
-//       });
-//     }
-//     return sortedKeys;
-//   } catch (e: any) {
-//     logger.info(`Error in sortKeysForCleanup method: ${e.message}`);
-//     return [];
-//   }
-// };
-
 const sortKeysWithoutTTLForCleanup = async () => {
   try {
     let sortedKeysWithoutTTL: string[] = [];
@@ -119,35 +87,6 @@ export const cleanupKeys = async (
       }
       logger.info(`Deleting Keys without TTL: ${keysToDelete.join(",")}`);
       await deleteKeysWithoutTTL(keysToDelete);
-
-      // if keys still exceed the threshold, delete the least used and oldest keys with ttl
-
-      // if (Object.keys(store).length >= maxKeys * threshold) {
-      //   const sortedKeysWithTTL = await sortKeysForCleanup();
-      //   if (sortedKeysWithTTL.length) {
-      //     const keysToDeleteWithTTL: string[] = [];
-
-      //     for (const key of keysToDeleteWithTTL) {
-      //       if (!store[key].timeoutId || keysToDelete.includes(key)) {
-      //         // logger.info(`Skipping key(${key}) deletion as it doesn't have ttl set`);
-      //         continue;
-      //       }
-
-      //       keysToDeleteWithTTL.push(key);
-      //       // logger.info(`Key(${key}) added to delete list`);
-      //       if (
-      //         keysToDeleteWithTTL.length >=
-      //         Object.keys(store).length - maxKeys
-      //       ) {
-      //         break;
-      //       }
-      //     }
-      //     logger.info(
-      //       `Deleting Keys with TTL: ${keysToDeleteWithTTL.join(",")}`
-      //     );
-      //     await deleteKeys(keysToDeleteWithTTL);
-      //   }
-      // }
     }
     next();
   } catch (e: any) {

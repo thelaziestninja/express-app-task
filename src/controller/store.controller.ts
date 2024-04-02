@@ -213,8 +213,8 @@ export async function UpdateKeyHandler(
       delete storeWithTTL[key];
     }
 
-    console.log("storeWithTTL", storeWithTTL);
-    console.log("storeWithoutTTL", storeWithoutTTL);
+    // console.log("storeWithTTL", storeWithTTL);
+    // console.log("storeWithoutTTL", storeWithoutTTL);
 
     logger.info(`Updated key-value pair in store - ${key}:${value}`);
     return res.status(ResponseStatus.Success).send({
