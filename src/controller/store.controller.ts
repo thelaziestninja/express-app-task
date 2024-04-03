@@ -29,10 +29,6 @@ export async function AddToStoreHandler(
 
     if (storeWithTTL.size + storeWithoutTTL.size >= maxKeys) {
       // or 200
-      console.log(
-        "storeWithTTL.size + storeWithoutTTL.size",
-        storeWithTTL.size + storeWithoutTTL.size
-      );
       logger.info("Store Overflowed, can't add more keys");
       return res
         .status(ResponseStatus.BadRequest)
@@ -57,7 +53,6 @@ export async function AddToStoreHandler(
     });
   } catch (e: any) {
     logger.info("Error adding key-value pair to store", e);
-    console.log(e);
     return res
       .status(ResponseStatus.InternalServerError)
       .send({ message: "Internal server error" });
@@ -187,7 +182,6 @@ export async function DeleteKeyHandler(
 //       .send({ message: "Keys in store:", store });
 //   } catch (e: any) {
 //     logger.info("Error getting store", e);
-//     console.log(e);
 //     return res.status(ResponseStatus.InternalServerError).send(e.message);
 //   }
 // }
