@@ -47,8 +47,6 @@ export async function AddToStoreHandler(
     const store = ttl ? storeWithTTL : storeWithoutTTL;
     store.set(key, { value, ttl, created_at: new Date(), timeoutId });
 
-    clearTimeout(storeWithTTL.get(key)?.timeoutId);
-
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res.status(ResponseStatus.Created).send({
       message: "key-value pair added to store",
