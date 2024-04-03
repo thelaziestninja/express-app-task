@@ -8,6 +8,7 @@ import {
 import logger from "../utils/logger";
 import { maxKeys } from "../../config/default";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
+import { setTimeoutId } from "../utils/utils";
 
 export const storeWithTTL = new Map<string, StoreValue>();
 export const storeWithoutTTL = new Map<string, StoreValue>();
@@ -40,17 +41,13 @@ export async function AddToStoreHandler(
 
     let timeoutId: NodeJS.Timeout | undefined;
     if (ttl) {
-      timeoutId = setTimeout(() => {
-        storeWithTTL.delete(key);
-      }, Number(ttl) * 1000);
-      clearTimeout(storeWithTTL.get(key)?.timeoutId);
+      timeoutId = setTimeoutId(key, Number(ttl), storeWithTTL);
     }
 
     const store = ttl ? storeWithTTL : storeWithoutTTL;
     store.set(key, { value, ttl, created_at: new Date(), timeoutId });
 
-    // console.log("storeWithTTL", storeWithTTL);
-    // console.log("storeWithoutTTL", storeWithoutTTL);
+    clearTimeout(storeWithTTL.get(key)?.timeoutId);
 
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res.status(ResponseStatus.Created).send({
