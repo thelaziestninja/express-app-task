@@ -153,7 +153,7 @@ export async function DeleteKeyHandler(
     }
 
     logger.info("User succesfully deleted key", key);
-    delete foundKey.ttl ? storeWithTTL.get(key) : storeWithoutTTL.get(key);
+    foundKey.ttl ? storeWithTTL.delete(key) : storeWithoutTTL.delete(key);
     return res
       .status(ResponseStatus.Success)
       .send({ message: "key deleted from store", key });
