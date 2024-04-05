@@ -86,6 +86,46 @@ const sortAndDeleteKeysWithoutTTL = async () => {
   }
 };
 
+const sortAndDeleteKeysWithTTL = async () => {
+  try {
+    const totalKeys = storeWithoutTTL.size + storeWithTTL.size;
+    const deletionThreshold = maxKeys * threshold;
+
+    if (totalKeys > deletionThreshold) {
+      logger.info(
+        "Sorting keys without TTL for cleanup as the total keys exceed threshold"
+      );
+      const entries = Array.from(storeWithTTL.entries());
+      const sortedKeysWithTTL = entries.sort(([, a], [, b]) => {
+        const aCreatedAt = a.created_at.getTime();
+        const bCreatedAt = b.created_at.getTime();
+
+        if (a.count !== undefined && b.count !== undefined) {
+          return a.count - b.count;
+        } else {
+          return aCreatedAt - bCreatedAt;
+        }
+      });
+      for (const [key, value] of sortedKeysWithTTL) {
+        if (storeWithTTL.has(key) && value.ttl) {
+          storeWithTTL.delete(key);
+          logger.info(`Deleted key(${key}) with TTL`);
+        }
+
+        if (storeWithoutTTL.size + storeWithTTL.size <= deletionThreshold) {
+          break;
+        }
+      }
+    }
+
+    logger.info("Total keys are within the threshold. No cleanup needed.");
+    return;
+  } catch (e: any) {
+    logger.info(`Error in sortKeysWithoutTTLForCleanup method: ${e.message}`);
+    throw e;
+  }
+};
+
 export const cleanupKeys = async (
   req: Request,
   res: Response,
@@ -96,6 +136,9 @@ export const cleanupKeys = async (
 
     await sortAndDeleteKeysWithoutTTL();
     // if keys still exceed the threshold, delete the least used and oldest keys with ttl
+    if (storeWithoutTTL.size + storeWithTTL.size > maxKeys * threshold) {
+      await sortAndDeleteKeysWithTTL();
+    }
 
     next();
   } catch (e: any) {
