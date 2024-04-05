@@ -3,45 +3,6 @@ import logger from "../utils/logger";
 import { Request, Response, NextFunction } from "express";
 import { maxKeys, threshold } from "../../config/default";
 import { storeWithTTL, storeWithoutTTL } from "../controller/store.controller";
-// const sortKeysWithoutTTLForCleanup = async () => {
-//   try {
-//     let sortedKeysWithoutTTL: string[] = [];
-//     const totalKeysWithoutTTL = storeWithoutTTL.size;
-//     const totalKeysWithTTL = storeWithTTL.size;
-
-//     logger.info(
-//       `Total keys in store: ${
-//         totalKeysWithoutTTL + totalKeysWithTTL
-//       }, max keys allowed: ${maxKeys * threshold}`
-//     );
-
-//     if (totalKeysWithoutTTL + totalKeysWithTTL > maxKeys * threshold) {
-//       logger.info(
-//         `Cleanup keys without TTL triggered as total keys are greater than or equal to ${
-//           maxKeys * threshold
-//         }`
-//       );
-
-//       sortedKeysWithoutTTL = Array.from(storeWithoutTTL.keys()).sort((a, b) => {
-//         const aItem = storeWithoutTTL.get(a);
-//         const bItem = storeWithoutTTL.get(b);
-//         if ((aItem?.count ?? 0) !== (bItem?.count ?? 0)) {
-//           return (aItem?.count ?? 0) - (bItem?.count ?? 0);
-//         } else {
-//           return (
-//             (aItem?.created_at?.getTime() ?? 0) -
-//             (bItem?.created_at?.getTime() ?? 0)
-//           );
-//         }
-//       });
-//     }
-
-//     return sortedKeysWithoutTTL;
-//   } catch (e: any) {
-//     logger.info(`Error in sortKeysWithoutTTLForCleanup method: ${e.message}`);
-//     return [];
-//   }
-// };
 
 const sortAndDeleteKeysWithoutTTL = async () => {
   try {
@@ -133,9 +94,8 @@ export const cleanupKeys = async (
 ) => {
   try {
     logger.info("Started checking for keys without TTL to delete in store");
-
     await sortAndDeleteKeysWithoutTTL();
-    // if keys still exceed the threshold, delete the least used and oldest keys with ttl
+
     if (storeWithoutTTL.size + storeWithTTL.size > maxKeys * threshold) {
       await sortAndDeleteKeysWithTTL();
     }
