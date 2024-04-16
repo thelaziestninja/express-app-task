@@ -49,25 +49,12 @@ class MinHeap<T extends HeapElement> {
       }
     }
   }
-  // not used as iteration is better O(nlogn) says GeekforGeeks
-  heapifyUpWithRecursion(index: number) {
-    if (index === 0) return;
-
-    const p = this.parent(index);
-    const parentV = this.heap[p];
-    const v = this.heap[index];
-
-    if (parentV > v) {
-      this.swap(p, index);
-      this.heapifyUpWithRecursion(p);
-    }
-  }
 
   heapifyDown(index: number) {
     let curr = index;
     while (curr < this.heap.length) {
-      const leftChild = this.leftChild(curr);
-      const rightChild = this.rightChild(curr);
+      const leftChild = 2 * curr + 1;
+      const rightChild = 2 * curr + 2;
       let smallest = curr;
       if (
         leftChild < this.heap.length &&
@@ -89,54 +76,9 @@ class MinHeap<T extends HeapElement> {
       curr = smallest;
     }
   }
-  // not used as iteration is better O(nlogn) says GeekforGeeks
-  heapifyDownWithRecursion(index: number) {
-    const leftChild = this.leftChild(index);
-    const rightChild = this.rightChild(index);
-
-    if (index >= this.heap.length || leftChild >= this.heap.length) return;
-
-    let smallest = index;
-
-    if (
-      leftChild < this.heap.length &&
-      this.compare(this.heap[leftChild], this.heap[smallest]) < 0
-    ) {
-      smallest = leftChild;
-    }
-
-    if (
-      rightChild < this.heap.length &&
-      this.compare(this.heap[rightChild], this.heap[smallest]) < 0
-    ) {
-      smallest = rightChild;
-    }
-
-    if (smallest !== index) {
-      this.swap(index, smallest);
-      this.heapifyDownWithRecursion(smallest);
-    }
-  }
-
-  private parent(index: number): number {
-    return Math.floor((index - 1) / 2);
-  }
-
-  private leftChild(index: number): number {
-    return index * 2 + 1;
-  }
-
-  private rightChild(index: number): number {
-    return index * 2 + 2;
-  }
 
   size(): number {
     return this.heap.length;
-  }
-
-  peek(): T | undefined {
-    if (this.heap.length === 0) return undefined;
-    return this.heap[0];
   }
 
   compare(a: T, b: T): number {

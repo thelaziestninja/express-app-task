@@ -1,4 +1,4 @@
-import { StoreValue } from "../types";
+import { HeapElement, StoreValue } from "../types";
 import {
   Request,
   Response,
@@ -13,8 +13,8 @@ import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
 
 export const storeWithTTL = new Map<string, StoreValue>();
 export const storeWithoutTTL = new Map<string, StoreValue>();
-export const minHeapWithTTL = new MinHeap();
-export const minHeapWithoutTTL = new MinHeap();
+export const minHeapWithTTL = new MinHeap<HeapElement>();
+export const minHeapWithoutTTL = new MinHeap<HeapElement>();
 
 export async function AddToStoreHandler(
   req: Request<StoreInput["body"]>,
