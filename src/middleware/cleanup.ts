@@ -31,7 +31,7 @@ const cleanupStoreWithTTL = async () => {
         }, CreatedAt: ${new Date(toRemove.createdAt).toISOString()}`
       );
     }
-    const removed = minHeap.removeMin();
+    const removed = minHeap.popMin();
 
     if (removed && storeWithTTL.has(removed.key)) {
       storeWithTTL.delete(removed.key);
