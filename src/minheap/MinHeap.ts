@@ -1,18 +1,18 @@
-class PriorityQueue {
-  heap: Array<{ key: string; createdAt: number; count: number }>;
+import { HeapElement } from "../types";
+
+class MinHeap<T extends HeapElement> {
+  heap: Array<T>;
 
   constructor() {
     this.heap = [];
   }
 
-  add(key: string, createdAt: number, count: number) {
-    this.heap.push({ key, createdAt, count });
+  add(item: T) {
+    this.heap.push(item);
     this.heapifyUp(this.heap.length - 1);
   }
 
-  remove(
-    key: string
-  ): { key: string; createdAt: number; count: number } | undefined {
+  remove(key: string): T | undefined {
     const index = this.heap.findIndex((item) => item.key === key);
     if (index === -1) return undefined;
 
@@ -22,7 +22,7 @@ class PriorityQueue {
     return removedItem;
   }
 
-  removeMin(): { key: string; createdAt: number; count: number } | undefined {
+  removeMin(): T | undefined {
     if (this.heap.length === 0) return undefined;
     if (this.heap.length === 1) return this.heap.pop();
     const min = this.heap[0];
@@ -70,15 +70,12 @@ class PriorityQueue {
     }
   }
 
-  peek() {
+  peek(): T | undefined {
     if (this.heap.length === 0) return undefined;
     return this.heap[0];
   }
 
-  compare(
-    a: { createdAt: number; count: number },
-    b: { createdAt: number; count: number }
-  ): number {
+  compare(a: T, b: T): number {
     if (a.count !== b.count) {
       return a.count - b.count;
     }
@@ -92,4 +89,4 @@ class PriorityQueue {
     ];
   }
 }
-export default PriorityQueue;
+export default MinHeap;

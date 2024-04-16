@@ -2,16 +2,20 @@ import { ZodError } from "zod";
 import logger from "../utils/logger";
 import { Request, Response, NextFunction } from "express";
 import { maxKeys, threshold } from "../../config/default";
-import PriorityQueue from "../priorityqueue/PriorityQueue";
+import MinHeap from "../minheap/MinHeap";
 import { storeWithTTL, storeWithoutTTL } from "../controller/store.controller";
 
 const cleanupStoreWithTTL = async () => {
-  const minHeap = new PriorityQueue();
+  const minHeap = new MinHeap();
   let keysRemoved = 0;
 
   for (const [key, value] of storeWithTTL.entries()) {
     if (value.created_at && value.count !== undefined) {
-      minHeap.add(key, value.created_at.getTime(), value.count);
+      minHeap.add({
+        key,
+        createdAt: value.created_at.getTime(),
+        count: value.count,
+      });
     }
   }
 

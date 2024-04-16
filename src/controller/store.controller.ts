@@ -8,10 +8,13 @@ import {
 import logger from "../utils/logger";
 import { setTimeoutId } from "../utils/utils";
 import { maxKeys } from "../../config/default";
+import MinHeap from "../minheap/MinHeap";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
 
 export const storeWithTTL = new Map<string, StoreValue>();
 export const storeWithoutTTL = new Map<string, StoreValue>();
+const minHeapWithTTL = new MinHeap();
+const minHeapWithoutTTL = new MinHeap();
 
 export async function AddToStoreHandler(
   req: Request<StoreInput["body"]>,
