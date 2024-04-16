@@ -22,4 +22,5 @@ export type HeapElement = {
   key: string;
   createdAt: number;
   count: number;
+  size: number;
 };

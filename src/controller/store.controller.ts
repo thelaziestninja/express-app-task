@@ -13,8 +13,8 @@ import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
 
 export const storeWithTTL = new Map<string, StoreValue>();
 export const storeWithoutTTL = new Map<string, StoreValue>();
-const minHeapWithTTL = new MinHeap();
-const minHeapWithoutTTL = new MinHeap();
+export const minHeapWithTTL = new MinHeap();
+export const minHeapWithoutTTL = new MinHeap();
 
 export async function AddToStoreHandler(
   req: Request<StoreInput["body"]>,
@@ -52,6 +52,7 @@ export async function AddToStoreHandler(
       key,
       createdAt: createdAt.getTime(),
       count: initialCount,
+      size: store.size,
     });
     console.log("minheapWithTTL", minHeapWithTTL);
     console.log("minheapWithoutTTL", minHeapWithoutTTL);
@@ -105,6 +106,7 @@ export async function GetKeyHandler(
       key,
       createdAt: item.created_at.getTime(),
       count: item.count,
+      size: item.ttl ? storeWithTTL.size : storeWithoutTTL.size,
     });
 
     console.log("minheapWithTTL", minHeapWithTTL);
@@ -153,6 +155,7 @@ export async function UpdateKeyHandler(
       key,
       createdAt: item.created_at.getTime(),
       count: item.count,
+      size: item.ttl ? storeWithTTL.size : storeWithoutTTL.size,
     });
 
     console.log("minheapWithTTL", minHeapWithTTL);

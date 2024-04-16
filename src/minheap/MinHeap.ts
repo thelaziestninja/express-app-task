@@ -130,6 +130,10 @@ class MinHeap<T extends HeapElement> {
     return index * 2 + 2;
   }
 
+  size(): number {
+    return this.heap.length;
+  }
+
   peek(): T | undefined {
     if (this.heap.length === 0) return undefined;
     return this.heap[0];
