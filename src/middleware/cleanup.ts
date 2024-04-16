@@ -17,7 +17,7 @@ const cleanupStoreWithTTL = async () => {
 
   let totalKeys = storeWithoutTTL.size + storeWithTTL.size;
   const deletionThreshold = maxKeys * threshold;
-  // Process the priority queue to remove expired keys
+
   while (totalKeys > deletionThreshold) {
     const toRemove = minHeap.peek();
     if (toRemove) {
