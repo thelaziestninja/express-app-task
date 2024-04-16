@@ -16,8 +16,14 @@ class MinHeap<T extends HeapElement> {
     const index = this.heap.findIndex((item) => item.key === key);
     if (index === -1) return undefined;
 
+    if (index === this.heap.length - 1) {
+      return this.heap.pop();
+    }
+
     const removedItem = this.heap[index];
     this.heap[index] = this.heap.pop()!;
+
+    this.heapifyDown(index);
     this.heapifyDown(index);
     return removedItem;
   }

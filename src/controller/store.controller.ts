@@ -40,12 +40,22 @@ export async function AddToStoreHandler(
 
     let timeoutId: NodeJS.Timeout | undefined;
     if (ttl) {
-      timeoutId = setTimeoutId(key, Number(ttl), storeWithTTL);
+      timeoutId = setTimeoutId(key, Number(ttl), storeWithTTL, minHeapWithTTL);
     }
 
-    const createdAt = new Date(); // Ensure you use a new Date object for creation time
-    const initialCount = 0; // Initialize count when creating the key
+    const createdAt = new Date();
+    const initialCount = 0;
     const store = ttl ? storeWithTTL : storeWithoutTTL;
+    const heap = ttl ? minHeapWithTTL : minHeapWithoutTTL;
+
+    heap.add({
+      key,
+      createdAt: createdAt.getTime(),
+      count: initialCount,
+    });
+    console.log("minheapWithTTL", minHeapWithTTL);
+    console.log("minheapWithoutTTL", minHeapWithoutTTL);
+
     store.set(key, {
       value,
       ttl,
@@ -53,9 +63,6 @@ export async function AddToStoreHandler(
       timeoutId,
       count: initialCount,
     });
-    console.log(
-      `Adding key: ${key} with count: ${initialCount} and created_at: ${createdAt.toISOString()}`
-    );
 
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res.status(ResponseStatus.Created).send({
@@ -90,6 +97,18 @@ export async function GetKeyHandler(
     }
 
     item.count = (item.count || 0) + 1;
+
+    const heap = item.ttl ? minHeapWithTTL : minHeapWithoutTTL;
+
+    heap.pop(key);
+    heap.add({
+      key,
+      createdAt: item.created_at.getTime(),
+      count: item.count,
+    });
+
+    console.log("minheapWithTTL", minHeapWithTTL);
+    console.log("minheapWithoutTTL", minHeapWithoutTTL);
 
     logger.info(`Key found in store - ${key}:${item.value}`);
     return res.status(ResponseStatus.Success).send({
@@ -128,6 +147,17 @@ export async function UpdateKeyHandler(
     item.value = value;
     item.count = (item.count || 0) + 1;
 
+    const heap = item.ttl ? minHeapWithTTL : minHeapWithoutTTL;
+    heap.pop(key);
+    heap.add({
+      key,
+      createdAt: item.created_at.getTime(),
+      count: item.count,
+    });
+
+    console.log("minheapWithTTL", minHeapWithTTL);
+    console.log("minheapWithoutTTL", minHeapWithoutTTL);
+
     logger.info(`Updated key-value pair in store - ${key}:${value}`);
     return res.status(ResponseStatus.Success).send({
       message: "key-value pair updated in store",
@@ -163,6 +193,11 @@ export async function DeleteKeyHandler(
 
     logger.info("User succesfully deleted key", key);
     foundKey.ttl ? storeWithTTL.delete(key) : storeWithoutTTL.delete(key);
+
+    const heap = foundKey.ttl ? minHeapWithTTL : minHeapWithoutTTL;
+    heap.pop(key);
+    console.log("minheapWithTTL", minHeapWithTTL);
+    console.log("minheapWithoutTTL", minHeapWithoutTTL);
 
     return res
       .status(ResponseStatus.Success)
