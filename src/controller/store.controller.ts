@@ -6,9 +6,9 @@ import {
   ResponseStatus,
 } from "../types/request";
 import logger from "../utils/logger";
+import { setTimeoutId } from "../utils/utils";
 import { maxKeys } from "../../config/default";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
-import { setTimeoutId } from "../utils/utils";
 
 export const storeWithTTL = new Map<string, StoreValue>();
 export const storeWithoutTTL = new Map<string, StoreValue>();
@@ -40,8 +40,19 @@ export async function AddToStoreHandler(
       timeoutId = setTimeoutId(key, Number(ttl), storeWithTTL);
     }
 
+    const createdAt = new Date(); // Ensure you use a new Date object for creation time
+    const initialCount = 0; // Initialize count when creating the key
     const store = ttl ? storeWithTTL : storeWithoutTTL;
-    store.set(key, { value, ttl, created_at: new Date(), timeoutId });
+    store.set(key, {
+      value,
+      ttl,
+      created_at: createdAt,
+      timeoutId,
+      count: initialCount,
+    });
+    console.log(
+      `Adding key: ${key} with count: ${initialCount} and created_at: ${createdAt.toISOString()}`
+    );
 
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res.status(ResponseStatus.Created).send({
@@ -149,6 +160,7 @@ export async function DeleteKeyHandler(
 
     logger.info("User succesfully deleted key", key);
     foundKey.ttl ? storeWithTTL.delete(key) : storeWithoutTTL.delete(key);
+
     return res
       .status(ResponseStatus.Success)
       .send({ message: "key deleted from store", key });
