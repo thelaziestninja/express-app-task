@@ -10,7 +10,7 @@ import {
 } from "../controller/store.controller";
 
 const cleanupHeapWithTTL = async () => {
-  let totalKeys = minHeapWithTTL.size() + minHeapWithoutTTL.size();
+  let totalKeys = storeWithTTL.size() + storeWithoutTTL.size();
   const deletionThreshold = maxKeys * threshold;
 
   while (totalKeys > deletionThreshold) {

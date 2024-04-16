@@ -1,4 +1,4 @@
-import MinHeap from "../minheap/MinHeap";
+import MinHeap from "../structures/MinHeap";
 import { HeapElement, StoreValue } from "../types";
 
 export const setTimeoutId = (

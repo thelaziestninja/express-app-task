@@ -77,10 +77,6 @@ class MinHeap<T extends HeapElement> {
     }
   }
 
-  size(): number {
-    return this.heap.length;
-  }
-
   compare(a: T, b: T): number {
     if (a.count !== b.count) {
       return a.count - b.count;

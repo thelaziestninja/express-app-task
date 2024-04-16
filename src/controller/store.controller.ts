@@ -8,13 +8,13 @@ import {
 import logger from "../utils/logger";
 import { setTimeoutId } from "../utils/utils";
 import { maxKeys } from "../../config/default";
-import MinHeap from "../minheap/MinHeap";
+import MinHeap from "../structures/MinHeap";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
 
-export const storeWithTTL = new Map<string, StoreValue>();
-export const storeWithoutTTL = new Map<string, StoreValue>();
-export const minHeapWithTTL = new MinHeap<HeapElement>();
-export const minHeapWithoutTTL = new MinHeap<HeapElement>();
+const storeWithTTL = new Map<string, StoreValue>();
+const storeWithoutTTL = new Map<string, StoreValue>();
+const minHeapWithTTL = new MinHeap<HeapElement>();
+const minHeapWithoutTTL = new MinHeap<HeapElement>();
 
 export async function AddToStoreHandler(
   req: Request<StoreInput["body"]>,
@@ -48,15 +48,6 @@ export async function AddToStoreHandler(
     const store = ttl ? storeWithTTL : storeWithoutTTL;
     const heap = ttl ? minHeapWithTTL : minHeapWithoutTTL;
 
-    heap.add({
-      key,
-      createdAt: createdAt.getTime(),
-      count: initialCount,
-      size: store.size,
-    });
-    console.log("minheapWithTTL", minHeapWithTTL);
-    console.log("minheapWithoutTTL", minHeapWithoutTTL);
-
     store.set(key, {
       value,
       ttl,
@@ -65,6 +56,11 @@ export async function AddToStoreHandler(
       count: initialCount,
     });
 
+    heap.add({
+      key,
+      createdAt: createdAt.getTime(),
+      count: initialCount,
+    });
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res.status(ResponseStatus.Created).send({
       message: "key-value pair added to store",
@@ -106,7 +102,6 @@ export async function GetKeyHandler(
       key,
       createdAt: item.created_at.getTime(),
       count: item.count,
-      size: item.ttl ? storeWithTTL.size : storeWithoutTTL.size,
     });
 
     console.log("minheapWithTTL", minHeapWithTTL);
@@ -155,11 +150,7 @@ export async function UpdateKeyHandler(
       key,
       createdAt: item.created_at.getTime(),
       count: item.count,
-      size: item.ttl ? storeWithTTL.size : storeWithoutTTL.size,
     });
-
-    console.log("minheapWithTTL", minHeapWithTTL);
-    console.log("minheapWithoutTTL", minHeapWithoutTTL);
 
     logger.info(`Updated key-value pair in store - ${key}:${value}`);
     return res.status(ResponseStatus.Success).send({
