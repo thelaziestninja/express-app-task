@@ -1,4 +1,4 @@
-import { HeapElement, StoreValue } from "../types";
+import { StoreElement } from "../types";
 import {
   Request,
   Response,
@@ -11,10 +11,10 @@ import { maxKeys } from "../../config/default";
 import MinHeap from "../structures/MinHeap";
 import { StoreInput, UpdateKeyInput } from "../schema/store.schema";
 
-const storeWithTTL = new Map<string, StoreValue>();
-const storeWithoutTTL = new Map<string, StoreValue>();
-const minHeapWithTTL = new MinHeap<HeapElement>();
-const minHeapWithoutTTL = new MinHeap<HeapElement>();
+export const storeWithTTL = new Map<string, StoreElement>();
+export const storeWithoutTTL = new Map<string, StoreElement>();
+export const minHeapWithTTL = new MinHeap();
+export const minHeapWithoutTTL = new MinHeap();
 
 export async function AddToStoreHandler(
   req: Request<StoreInput["body"]>,
@@ -43,31 +43,30 @@ export async function AddToStoreHandler(
       timeoutId = setTimeoutId(key, Number(ttl), storeWithTTL, minHeapWithTTL);
     }
 
-    const createdAt = new Date();
-    const initialCount = 0;
+    const data: StoreElement = {
+      value,
+      ttl,
+      count: 0,
+      created_at: new Date(Date.now()),
+      timeoutId,
+    };
+
     const store = ttl ? storeWithTTL : storeWithoutTTL;
     const heap = ttl ? minHeapWithTTL : minHeapWithoutTTL;
 
-    store.set(key, {
-      value,
-      ttl,
-      created_at: createdAt,
-      timeoutId,
-      count: initialCount,
-    });
+    store.set(key, data);
+    heap.add(key, data);
 
-    heap.add({
-      key,
-      createdAt: createdAt.getTime(),
-      count: initialCount,
-    });
+    console.log("storeWithTTL", storeWithTTL);
+    console.log("minHeapWithTTL", minHeapWithTTL);
+
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res.status(ResponseStatus.Created).send({
       message: "key-value pair added to store",
       key,
       value,
       ttl,
-      created_at: store.get(key)?.created_at,
+      created_at: data.created_at,
     });
   } catch (e: any) {
     logger.info("Error adding key-value pair to store", e);
@@ -94,18 +93,6 @@ export async function GetKeyHandler(
     }
 
     item.count = (item.count || 0) + 1;
-
-    const heap = item.ttl ? minHeapWithTTL : minHeapWithoutTTL;
-
-    heap.pop(key);
-    heap.add({
-      key,
-      createdAt: item.created_at.getTime(),
-      count: item.count,
-    });
-
-    console.log("minheapWithTTL", minHeapWithTTL);
-    console.log("minheapWithoutTTL", minHeapWithoutTTL);
 
     logger.info(`Key found in store - ${key}:${item.value}`);
     return res.status(ResponseStatus.Success).send({
@@ -144,13 +131,12 @@ export async function UpdateKeyHandler(
     item.value = value;
     item.count = (item.count || 0) + 1;
 
+    console.log("storeWithTTL", storeWithTTL);
+    console.log("minHeapWithTTL", minHeapWithTTL);
+
     const heap = item.ttl ? minHeapWithTTL : minHeapWithoutTTL;
-    heap.pop(key);
-    heap.add({
-      key,
-      createdAt: item.created_at.getTime(),
-      count: item.count,
-    });
+    heap.remove(key);
+    heap.add(key, item);
 
     logger.info(`Updated key-value pair in store - ${key}:${value}`);
     return res.status(ResponseStatus.Success).send({
@@ -176,9 +162,9 @@ export async function DeleteKeyHandler(
   try {
     const key = req.params.key;
 
-    const foundKey = storeWithTTL.get(key) ?? storeWithoutTTL.get(key);
+    const foundItem = storeWithTTL.get(key) ?? storeWithoutTTL.get(key);
 
-    if (!foundKey) {
+    if (!foundItem) {
       logger.info("User failed to delete key", key);
       return res.status(ResponseStatus.NotFound).send({
         message: "Key not found in store",
@@ -186,12 +172,10 @@ export async function DeleteKeyHandler(
     }
 
     logger.info("User succesfully deleted key", key);
-    foundKey.ttl ? storeWithTTL.delete(key) : storeWithoutTTL.delete(key);
+    foundItem.ttl ? storeWithTTL.delete(key) : storeWithoutTTL.delete(key);
 
-    const heap = foundKey.ttl ? minHeapWithTTL : minHeapWithoutTTL;
-    heap.pop(key);
-    console.log("minheapWithTTL", minHeapWithTTL);
-    console.log("minheapWithoutTTL", minHeapWithoutTTL);
+    const heap = foundItem.ttl ? minHeapWithTTL : minHeapWithoutTTL;
+    heap.remove(key);
 
     return res
       .status(ResponseStatus.Success)
@@ -203,29 +187,3 @@ export async function DeleteKeyHandler(
       .send({ message: "Internal server error" });
   }
 }
-
-//dev request
-// export async function GetStoresHandler(
-//   req: Request<EmptyRequest>,
-//   res: Response<StoreResponse>
-// ) {
-//   try {
-//     if (
-//       Object.keys(storeWithTTL).length + Object.keys(storeWithoutTTL).length <=
-//       0
-//     ) {
-//       logger.info(`Store requested but it's empty`);
-//       return res
-//         .status(ResponseStatus.BadRequest)
-//         .send({ message: "Store is empty", storeWithoutTTL, storeWithTTL });
-//     }
-
-//     logger.info("Store requested, store returned");
-//     return res
-//       .status(ResponseStatus.Success)
-//       .send({ message: "Keys in store:", store });
-//   } catch (e: any) {
-//     logger.info("Error getting store", e);
-//     return res.status(ResponseStatus.InternalServerError).send(e.message);
-//   }
-// }

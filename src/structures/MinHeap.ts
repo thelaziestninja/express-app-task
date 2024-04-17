@@ -1,18 +1,23 @@
-import { HeapElement } from "../types";
+import { StoreElement } from "../types";
 
-class MinHeap<T extends HeapElement> {
-  heap: Array<T>;
+interface HeapNode {
+  key: string;
+  value: StoreElement;
+}
+class MinHeap {
+  private heap: HeapNode[];
 
   constructor() {
     this.heap = [];
   }
 
-  add(item: T) {
-    this.heap.push(item);
+  add(key: string, value: StoreElement) {
+    const newNode: HeapNode = { key, value };
+    this.heap.push(newNode);
     this.heapifyUp(this.heap.length - 1);
   }
 
-  pop(key: string): T | undefined {
+  remove(key: string) {
     const index = this.heap.findIndex((item) => item.key === key);
     if (index === -1) return undefined;
 
@@ -24,11 +29,10 @@ class MinHeap<T extends HeapElement> {
     this.heap[index] = this.heap.pop()!;
 
     this.heapifyDown(index);
-    this.heapifyDown(index);
     return removedItem;
   }
 
-  popMin(): T | undefined {
+  pop() {
     if (this.heap.length === 0) return undefined;
     if (this.heap.length === 1) return this.heap.pop();
     const min = this.heap[0];
@@ -41,7 +45,7 @@ class MinHeap<T extends HeapElement> {
     let curr = index;
     while (curr > 0) {
       const parent = Math.floor((curr - 1) / 2);
-      if (this.compare(this.heap[curr], this.heap[parent]) < 0) {
+      if (this.compare(this.heap[curr].value, this.heap[parent].value) < 0) {
         this.swap(curr, parent);
         curr = parent;
       } else {
@@ -58,13 +62,13 @@ class MinHeap<T extends HeapElement> {
       let smallest = curr;
       if (
         leftChild < this.heap.length &&
-        this.compare(this.heap[leftChild], this.heap[smallest]) < 0
+        this.compare(this.heap[leftChild].value, this.heap[smallest].value) < 0
       ) {
         smallest = leftChild;
       }
       if (
         rightChild < this.heap.length &&
-        this.compare(this.heap[rightChild], this.heap[smallest]) < 0
+        this.compare(this.heap[rightChild].value, this.heap[smallest].value) < 0
       ) {
         smallest = rightChild;
       }
@@ -77,11 +81,11 @@ class MinHeap<T extends HeapElement> {
     }
   }
 
-  compare(a: T, b: T): number {
+  compare(a: StoreElement, b: StoreElement) {
     if (a.count !== b.count) {
       return a.count - b.count;
     }
-    return a.createdAt - b.createdAt;
+    return Number(a.created_at) - Number(b.created_at);
   }
 
   swap(index1: number, index2: number) {

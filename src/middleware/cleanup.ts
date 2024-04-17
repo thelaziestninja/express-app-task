@@ -10,11 +10,11 @@ import {
 } from "../controller/store.controller";
 
 const cleanupHeapWithTTL = async () => {
-  let totalKeys = storeWithTTL.size() + storeWithoutTTL.size();
+  let totalKeys = storeWithTTL.size + storeWithoutTTL.size;
   const deletionThreshold = maxKeys * threshold;
 
   while (totalKeys > deletionThreshold) {
-    const removedElement = minHeapWithTTL.popMin();
+    const removedElement = minHeapWithTTL.pop();
     if (removedElement) {
       const { key } = removedElement;
 
@@ -29,11 +29,11 @@ const cleanupHeapWithTTL = async () => {
 };
 
 const cleanupHeapWithoutTTL = async () => {
-  let totalKeys = minHeapWithTTL.size() + minHeapWithoutTTL.size();
+  let totalKeys = storeWithTTL.size + storeWithoutTTL.size;
   const deletionThreshold = maxKeys * threshold;
 
   while (totalKeys > deletionThreshold) {
-    const removedElement = minHeapWithoutTTL.popMin();
+    const removedElement = minHeapWithoutTTL.pop();
     if (removedElement) {
       const { key } = removedElement;
 
@@ -53,7 +53,7 @@ export const cleanupKeys = async (
   next: NextFunction
 ) => {
   try {
-    let totalKeys = minHeapWithTTL.size() + minHeapWithoutTTL.size();
+    let totalKeys = storeWithTTL.size + storeWithoutTTL.size;
     const deletionThreshold = maxKeys * threshold;
 
     if (totalKeys <= deletionThreshold) {

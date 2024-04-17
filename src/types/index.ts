@@ -10,16 +10,10 @@ export type Store = {
   };
 };
 
-export type StoreValue = {
+export type StoreElement = {
   value: string;
   ttl?: number;
-  count?: number;
+  count: number;
   created_at: Date;
   timeoutId?: NodeJS.Timeout; // Type safety for timeoutId, setTimeout returns NodeJS.Timeout
-};
-
-export type HeapElement = {
-  key: string;
-  createdAt: number;
-  count: number;
 };
