@@ -57,9 +57,6 @@ export async function AddToStoreHandler(
     store.set(key, data);
     heap.add(key, data);
 
-    console.log("storeWithTTL", storeWithTTL);
-    console.log("minHeapWithTTL", minHeapWithTTL);
-
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res.status(ResponseStatus.Created).send({
       message: "key-value pair added to store",
@@ -93,6 +90,10 @@ export async function GetKeyHandler(
     }
 
     item.count = (item.count || 0) + 1;
+
+    const heap = item.ttl ? minHeapWithTTL : minHeapWithoutTTL;
+    heap.remove(key);
+    heap.add(key, item);
 
     logger.info(`Key found in store - ${key}:${item.value}`);
     return res.status(ResponseStatus.Success).send({
@@ -130,9 +131,6 @@ export async function UpdateKeyHandler(
 
     item.value = value;
     item.count = (item.count || 0) + 1;
-
-    console.log("storeWithTTL", storeWithTTL);
-    console.log("minHeapWithTTL", minHeapWithTTL);
 
     const heap = item.ttl ? minHeapWithTTL : minHeapWithoutTTL;
     heap.remove(key);
