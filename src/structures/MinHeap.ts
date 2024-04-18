@@ -3,6 +3,7 @@ import { StoreElement } from "../types";
 interface HeapNode {
   key: string;
   value: StoreElement;
+  index: number;
 }
 class MinHeap {
   private heap: HeapNode[];
@@ -12,7 +13,7 @@ class MinHeap {
   }
 
   add(key: string, value: StoreElement) {
-    const newNode: HeapNode = { key, value };
+    const newNode: HeapNode = { key, value, index: this.heap.length };
     this.heap.push(newNode);
     this.heapifyUp(this.heap.length - 1);
   }
@@ -21,22 +22,20 @@ class MinHeap {
     const index = this.heap.findIndex((item) => item.key === key);
     if (index === -1) return undefined;
 
-    if (index === this.heap.length - 1) {
-      return this.heap.pop();
+    this.swap(index, this.heap.length - 1);
+    const removedItem = this.heap.pop();
+    if (index < this.heap.length) {
+      this.heapifyUp(index);
+      this.heapifyDown(index);
     }
-
-    const removedItem = this.heap[index];
-    this.heap[index] = this.heap.pop()!;
-
-    this.heapifyDown(index);
     return removedItem;
   }
 
   pop() {
     if (this.heap.length === 0) return undefined;
-    if (this.heap.length === 1) return this.heap.pop();
     const min = this.heap[0];
-    this.heap[0] = this.heap.pop()!;
+    this.swap(0, this.heap.length - 1);
+    this.heap.pop();
     this.heapifyDown(0);
     return min;
   }
