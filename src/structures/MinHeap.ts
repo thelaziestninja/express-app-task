@@ -27,18 +27,6 @@ class MinHeap {
     }
   }
 
-  removeAt(index: number): void {
-    if (index < 0 || index >= this.heap.length) return undefined;
-
-    this.swap(index, this.heap.length - 1);
-    this.heap.pop();
-
-    if (index < this.heap.length) {
-      this.heapifyDown(index);
-      this.heapifyUp(index);
-    }
-  }
-
   pop() {
     if (this.heap.length === 0) return undefined;
     const min = this.heap[0];
