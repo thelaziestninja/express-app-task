@@ -1,42 +1,53 @@
 import { StoreElement } from "../types";
 
-interface HeapNode {
-  key: string;
-  value: StoreElement;
-  index: number;
-}
 class MinHeap {
-  private heap: HeapNode[];
+  private heap: StoreElement[];
 
   constructor() {
     this.heap = [];
   }
 
-  add(key: string, value: StoreElement) {
-    const newNode: HeapNode = { key, value, index: this.heap.length };
-    this.heap.push(newNode);
+  add(item: StoreElement) {
+    item.heapIndex = this.heap.length;
+    this.heap.push(item);
     this.heapifyUp(this.heap.length - 1);
   }
 
-  remove(key: string) {
-    const index = this.heap.findIndex((item) => item.index === index);
-    if (index === -1) return undefined;
+  remove(item: StoreElement): void {
+    const index = item.heapIndex;
+    if (index === undefined || index < 0 || index >= this.heap.length)
+      return undefined;
 
     this.swap(index, this.heap.length - 1);
-    const removedItem = this.heap.pop();
-    if (index < this.heap.length) {
-      this.heapifyUp(index);
+    this.heap.pop();
+
+    if (this.heap.length > 0 && index < this.heap.length) {
       this.heapifyDown(index);
+      this.heapifyUp(index);
     }
-    return removedItem;
+  }
+
+  removeAt(index: number): void {
+    if (index < 0 || index >= this.heap.length) return undefined;
+
+    this.swap(index, this.heap.length - 1);
+    this.heap.pop();
+
+    if (index < this.heap.length) {
+      this.heapifyDown(index);
+      this.heapifyUp(index);
+    }
   }
 
   pop() {
     if (this.heap.length === 0) return undefined;
     const min = this.heap[0];
-    this.swap(0, this.heap.length - 1);
-    this.heap.pop();
-    this.heapifyDown(0);
+    const end = this.heap.pop();
+    if (this.heap.length > 0 && end !== undefined) {
+      this.heap[0] = end;
+      this.heap[0].heapIndex = 0;
+      this.heapifyDown(0);
+    }
     return min;
   }
 
@@ -44,7 +55,7 @@ class MinHeap {
     let curr = index;
     while (curr > 0) {
       const parent = Math.floor((curr - 1) / 2);
-      if (this.compare(this.heap[curr].value, this.heap[parent].value) < 0) {
+      if (this.compare(this.heap[curr], this.heap[parent]) < 0) {
         this.swap(curr, parent);
         curr = parent;
       } else {
@@ -53,21 +64,23 @@ class MinHeap {
     }
   }
 
-  heapifyDown(index: number) {
-    let curr = index;
-    while (curr < this.heap.length) {
+  heapifyDown(heapIndex: number) {
+    let curr = heapIndex;
+    const last = this.heap.length - 1;
+    while (true) {
+      let smallest = curr;
       const leftChild = 2 * curr + 1;
       const rightChild = 2 * curr + 2;
-      let smallest = curr;
+
       if (
-        leftChild < this.heap.length &&
-        this.compare(this.heap[leftChild].value, this.heap[smallest].value) < 0
+        leftChild <= this.heap.length &&
+        this.compare(this.heap[leftChild], this.heap[smallest]) < 0
       ) {
         smallest = leftChild;
       }
       if (
-        rightChild < this.heap.length &&
-        this.compare(this.heap[rightChild].value, this.heap[smallest].value) < 0
+        rightChild <= last &&
+        this.compare(this.heap[rightChild], this.heap[smallest]) < 0
       ) {
         smallest = rightChild;
       }
@@ -87,11 +100,12 @@ class MinHeap {
     return Number(a.created_at) - Number(b.created_at);
   }
 
-  swap(index1: number, index2: number) {
-    [this.heap[index1], this.heap[index2]] = [
-      this.heap[index2],
-      this.heap[index1],
-    ];
+  swap(i: number, j: number) {
+    [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
+    this.heap[i].heapIndex = i;
+    this.heap[j].heapIndex = j;
   }
 }
+//nqkude mejdu tezi dve metoda heapify up i heapify down trqbva da promenqm i index-a na samiq item
+
 export default MinHeap;

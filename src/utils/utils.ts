@@ -9,7 +9,7 @@ export const setTimeoutId = (
 ): NodeJS.Timeout => {
   const timeoutId = setTimeout(() => {
     storeWithTTL.delete(key);
-    heapWithTTL.remove(key);
+    heapWithTTL.remove();
     console.log(`Expired and removed key from store and heap: ${key}`);
   }, ttl * 1000);
   return timeoutId;

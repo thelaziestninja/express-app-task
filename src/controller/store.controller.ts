@@ -44,18 +44,23 @@ export async function AddToStoreHandler(
     }
 
     const data: StoreElement = {
+      key,
       value,
       ttl,
       count: 0,
       created_at: new Date(Date.now()),
       timeoutId,
+      heapIndex: -1,
     };
 
     const store = ttl ? storeWithTTL : storeWithoutTTL;
     const heap = ttl ? minHeapWithTTL : minHeapWithoutTTL;
 
     store.set(key, data);
-    heap.add(key, data);
+    heap.add(data);
+
+    console.log("storeWithTTL", storeWithTTL);
+    console.log("minheapWithTTL", minHeapWithTTL);
 
     logger.info(`Added key-value pair to store - ${key}:${value}`);
     return res.status(ResponseStatus.Created).send({
@@ -91,9 +96,8 @@ export async function GetKeyHandler(
 
     item.count = (item.count || 0) + 1;
 
-    const heap = item.ttl ? minHeapWithTTL : minHeapWithoutTTL;
-    heap.remove(key);
-    heap.add(key, item);
+    console.log("storeWithTTL", storeWithTTL);
+    console.log("minheapWithTTL", minHeapWithTTL);
 
     logger.info(`Key found in store - ${key}:${item.value}`);
     return res.status(ResponseStatus.Success).send({
@@ -132,9 +136,8 @@ export async function UpdateKeyHandler(
     item.value = value;
     item.count = (item.count || 0) + 1;
 
-    const heap = item.ttl ? minHeapWithTTL : minHeapWithoutTTL;
-    heap.remove(key);
-    heap.add(key, item);
+    console.log("storeWithTTL", storeWithTTL);
+    console.log("minheapWithTTL", minHeapWithTTL);
 
     logger.info(`Updated key-value pair in store - ${key}:${value}`);
     return res.status(ResponseStatus.Success).send({
@@ -170,10 +173,14 @@ export async function DeleteKeyHandler(
     }
 
     logger.info("User succesfully deleted key", key);
-    foundItem.ttl ? storeWithTTL.delete(key) : storeWithoutTTL.delete(key);
-
+    const store = foundItem.ttl ? storeWithTTL : storeWithoutTTL;
     const heap = foundItem.ttl ? minHeapWithTTL : minHeapWithoutTTL;
-    heap.remove(key);
+
+    store.delete(key);
+    heap.remove(foundItem);
+
+    console.log("storeWithTTL", storeWithTTL);
+    console.log("minheapWithTTL", minHeapWithTTL);
 
     return res
       .status(ResponseStatus.Success)
