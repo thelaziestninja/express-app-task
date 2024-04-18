@@ -19,7 +19,7 @@ class MinHeap {
   }
 
   remove(key: string) {
-    const index = this.heap.findIndex((item) => item.key === key);
+    const index = this.heap.findIndex((item) => item.index === index);
     if (index === -1) return undefined;
 
     this.swap(index, this.heap.length - 1);
