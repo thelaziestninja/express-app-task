@@ -8,8 +8,14 @@ export const setTimeoutId = (
   heapWithTTL: MinHeap // Fix: Make MinHeap generic by specifying the type parameter
 ): NodeJS.Timeout => {
   const timeoutId = setTimeout(() => {
-    storeWithTTL.delete(key);
-    heapWithTTL.remove();
+    if (storeWithTTL.has(key)) {
+      const item = storeWithTTL.get(key);
+      storeWithTTL.delete(key);
+      if (item && typeof item.heapIndex === "number") {
+        heapWithTTL.removeAt(item.heapIndex);
+      }
+    }
+
     console.log(`Expired and removed key from store and heap: ${key}`);
   }, ttl * 1000);
   return timeoutId;

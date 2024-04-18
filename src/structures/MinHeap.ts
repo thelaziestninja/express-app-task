@@ -94,8 +94,8 @@ class MinHeap {
   }
 
   compare(a: StoreElement, b: StoreElement) {
-    if (a.count !== b.count) {
-      return a.count - b.count;
+    if (a.count !== (b.count ?? 0)) {
+      return (a.count ?? 0) - (b.count ?? 0);
     }
     return Number(a.created_at) - Number(b.created_at);
   }
