@@ -11,8 +11,22 @@ export const StoreSchema = object({
     ttl: number().optional(),
   }),
 });
-
 export type StoreInput = TypeOf<typeof StoreSchema>;
+
+export const StoreParamsSchema = object({
+  params: z.object({
+    key: z.string({
+      required_error: "Key in path string is required.",
+    }),
+  }),
+  body: object({
+    value: string({
+      required_error: "Value is required.",
+    }),
+    ttl: number().optional(),
+  }),
+});
+export type StoreParams = TypeOf<typeof StoreParamsSchema>;
 
 export const StoreQueryParams = object({
   params: z.object({
@@ -21,28 +35,3 @@ export const StoreQueryParams = object({
     }),
   }),
 });
-
-export const UpdateKeySchema = object({
-  body: object({
-    value: string({
-      required_error: "Value is required.",
-    }),
-    ttl: number().optional(),
-  }),
-});
-
-export const StoreParams = object({
-  params: z.object({
-    key: z.string({
-      required_error: "Key in path string is required.",
-    }),
-  }),
-  body: object({
-    value: string({
-      required_error: "Value is required.",
-    }),
-    ttl: number().optional(),
-  }),
-});
-
-export type UpdateKeyInput = TypeOf<typeof UpdateKeySchema>;

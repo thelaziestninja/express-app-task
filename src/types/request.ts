@@ -8,8 +8,6 @@ export type Request<ReqBody> = core.Request<
   ReqBody
 >;
 
-export type EmptyRequest = core.Request<core.ParamsDictionary, {}, {}>;
-
 export interface BaseResponse {
   message?: string;
   error?: string;

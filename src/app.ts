@@ -1,8 +1,9 @@
 import cors from "cors";
 import config from "config";
 import express from "express";
-import routes from "./routes";
 import logger from "./utils/logger";
+import stackRoutes from "./routes/stack";
+import storeRoutes from "./routes/store";
 
 const port = config.get<number>("port");
 
@@ -16,9 +17,11 @@ app.use(
 
 app.use(express.json());
 
+app.use("/stack", stackRoutes);
+app.use("/store", storeRoutes);
+
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, async () => {
     logger.info(`App is running at port ${port}!`);
-    routes(app);
   });
 }
