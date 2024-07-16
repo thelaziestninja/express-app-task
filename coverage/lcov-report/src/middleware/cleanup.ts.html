@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.91% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/47</span>
+                <span class='fraction'>14/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">16.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/9</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.81% </span>
+                <span class="strong">39.39% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/44</span>
+                <span class='fraction'>13/33</span>
             </div>
         
             
@@ -146,7 +146,9 @@
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -176,26 +178,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -229,7 +231,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ZodError } from "zod";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ZodError } from "zod";
 import logger from "../utils/logger";
 import { Request, Response, NextFunction } from "express";
 import { maxKeys, threshold } from "../../config/default";
@@ -237,7 +240,7 @@ import {
   storeWithTTL,
   storeWithoutTTL,
   minHeapWithTTL,
-  minHeapWithoutTTL,
+  // minHeapWithoutTTL,
 } from "../controller/store.controller";
 &nbsp;
 const cleanupHeapWithTTL = <span class="fstat-no" title="function not covered" >async () =</span>&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
@@ -259,24 +262,24 @@ const cleanupHeapWithTTL = <span class="fstat-no" title="function not covered" >
   }
 };
 &nbsp;
-const cleanupHeapWithoutTTL = <span class="fstat-no" title="function not covered" >async () =</span>&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  let totalKeys = <span class="cstat-no" title="statement not covered" >storeWithTTL.size + storeWithoutTTL.size;</span>
-  const deletionThreshold = <span class="cstat-no" title="statement not covered" >maxKeys * threshold;</span>
+// const cleanupHeapWithoutTTL = async () =&gt; {
+//   let totalKeys = storeWithTTL.size + storeWithoutTTL.size;
+//   const deletionThreshold = maxKeys * threshold;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  while (totalKeys &gt; deletionThreshold) {</span>
-    const removedElement = <span class="cstat-no" title="statement not covered" >minHeapWithoutTTL.pop();</span>
-<span class="cstat-no" title="statement not covered" >    if (removedElement) {</span>
-      const { key } = <span class="cstat-no" title="statement not covered" >removedElement;</span>
+//   while (totalKeys &gt; deletionThreshold) {
+//     const removedElement = minHeapWithoutTTL.pop();
+//     if (removedElement) {
+//       const { key } = removedElement;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (storeWithoutTTL.has(key)) {</span>
-<span class="cstat-no" title="statement not covered" >        storeWithoutTTL.delete(key);</span>
-      }
-<span class="cstat-no" title="statement not covered" >      totalKeys = storeWithoutTTL.size + storeWithTTL.size;</span>
-    } else {
-<span class="cstat-no" title="statement not covered" >      break;</span>
-    }
-  }
-};
+//       if (storeWithoutTTL.has(key)) {
+//         storeWithoutTTL.delete(key);
+//       }
+//       totalKeys = storeWithoutTTL.size + storeWithTTL.size;
+//     } else {
+//       break;
+//     }
+//   }
+// };
 &nbsp;
 export const cleanupKeys = async (
   req: Request,
@@ -284,7 +287,7 @@ export const cleanupKeys = async (
   next: NextFunction
 ) =&gt; {
   try {
-    let totalKeys = storeWithTTL.size + storeWithoutTTL.size;
+    const totalKeys = storeWithTTL.size + storeWithoutTTL.size;
     const deletionThreshold = maxKeys * threshold;
 &nbsp;
     if (totalKeys &lt;= deletionThreshold) {
@@ -319,7 +322,7 @@ export const cleanupKeys = async (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-07-16T10:56:38.615Z
+                at 2024-07-16T13:15:07.618Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

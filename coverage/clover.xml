@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1721127398635" clover="3.2.0">
-  <project timestamp="1721127398635" name="All files">
-    <metrics statements="243" coveredstatements="154" conditionals="88" coveredconditionals="39" methods="27" coveredmethods="21" elements="358" coveredelements="214" complexity="0" loc="243" ncloc="243" packages="7" files="11" classes="11"/>
+<coverage generated="1721135707639" clover="3.2.0">
+  <project timestamp="1721135707639" name="All files">
+    <metrics statements="232" coveredstatements="153" conditionals="85" coveredconditionals="39" methods="25" coveredmethods="21" elements="342" coveredelements="213" complexity="0" loc="232" ncloc="232" packages="7" files="11" classes="11"/>
     <package name="config">
       <metrics statements="4" coveredstatements="4" conditionals="8" coveredconditionals="4" methods="0" coveredmethods="0"/>
       <file name="default.ts" path="C:\Users\GRIGS\express app task\app\config\default.ts">
@@ -16,183 +16,172 @@
       <metrics statements="107" coveredstatements="81" conditionals="35" coveredconditionals="23" methods="6" coveredmethods="6"/>
       <file name="stack.controller.ts" path="C:\Users\GRIGS\express app task\app\src\controller\stack.controller.ts">
         <metrics statements="29" coveredstatements="19" conditionals="3" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
         <line num="19" count="2" type="stmt"/>
         <line num="20" count="2" type="stmt"/>
-        <line num="22" count="2" type="cond" truecount="0" falsecount="1"/>
-        <line num="23" count="0" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="23" count="2" type="cond" truecount="0" falsecount="1"/>
         <line num="24" count="0" type="stmt"/>
-        <line num="29" count="2" type="stmt"/>
-        <line num="30" count="2" type="cond" truecount="0" falsecount="1"/>
-        <line num="31" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="31" count="2" type="cond" truecount="0" falsecount="1"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="39" count="2" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
         <line num="40" count="2" type="stmt"/>
         <line num="41" count="2" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
         <line num="48" count="0" type="stmt"/>
-        <line num="54" count="1" type="stmt"/>
-        <line num="58" count="1" type="stmt"/>
-        <line num="59" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="60" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="61" count="0" type="stmt"/>
-        <line num="66" count="1" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
         <line num="67" count="1" type="stmt"/>
         <line num="68" count="1" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
         <line num="76" count="0" type="stmt"/>
+        <line num="77" count="0" type="stmt"/>
       </file>
       <file name="store.controller.ts" path="C:\Users\GRIGS\express app task\app\src\controller\store.controller.ts">
         <metrics statements="78" coveredstatements="62" conditionals="32" coveredconditionals="23" methods="4" coveredmethods="4"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="23" count="5" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
         <line num="24" count="5" type="stmt"/>
-        <line num="26" count="5" type="cond" truecount="2" falsecount="1"/>
-        <line num="27" count="0" type="stmt"/>
+        <line num="25" count="5" type="stmt"/>
+        <line num="27" count="5" type="cond" truecount="2" falsecount="1"/>
         <line num="28" count="0" type="stmt"/>
-        <line num="33" count="5" type="cond" truecount="0" falsecount="1"/>
-        <line num="35" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="34" count="5" type="cond" truecount="0" falsecount="1"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="42" count="5" type="cond" truecount="1" falsecount="0"/>
-        <line num="43" count="2" type="stmt"/>
-        <line num="46" count="5" type="stmt"/>
-        <line num="56" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="43" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="47" count="5" type="stmt"/>
         <line num="57" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="59" count="5" type="stmt"/>
+        <line num="58" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="60" count="5" type="stmt"/>
-        <line num="62" count="5" type="stmt"/>
+        <line num="61" count="5" type="stmt"/>
         <line num="63" count="5" type="stmt"/>
-        <line num="65" count="5" type="stmt"/>
+        <line num="64" count="5" type="stmt"/>
         <line num="66" count="5" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
+        <line num="67" count="5" type="stmt"/>
         <line num="75" count="0" type="stmt"/>
-        <line num="81" count="1" type="stmt"/>
-        <line num="85" count="2" type="stmt"/>
+        <line num="76" count="0" type="stmt"/>
+        <line num="82" count="1" type="stmt"/>
         <line num="86" count="2" type="stmt"/>
-        <line num="88" count="2" type="cond" truecount="3" falsecount="1"/>
-        <line num="90" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="91" count="1" type="stmt"/>
+        <line num="87" count="2" type="stmt"/>
+        <line num="89" count="2" type="cond" truecount="3" falsecount="1"/>
+        <line num="91" count="2" type="cond" truecount="1" falsecount="0"/>
         <line num="92" count="1" type="stmt"/>
-        <line num="97" count="1" type="cond" truecount="2" falsecount="0"/>
-        <line num="99" count="1" type="stmt"/>
+        <line num="93" count="1" type="stmt"/>
+        <line num="98" count="1" type="cond" truecount="2" falsecount="0"/>
         <line num="100" count="1" type="stmt"/>
-        <line num="102" count="1" type="stmt"/>
+        <line num="101" count="1" type="stmt"/>
         <line num="103" count="1" type="stmt"/>
-        <line num="112" count="0" type="stmt"/>
+        <line num="104" count="1" type="stmt"/>
         <line num="113" count="0" type="stmt"/>
-        <line num="119" count="1" type="stmt"/>
-        <line num="123" count="1" type="stmt"/>
+        <line num="114" count="0" type="stmt"/>
+        <line num="120" count="1" type="stmt"/>
         <line num="124" count="1" type="stmt"/>
         <line num="125" count="1" type="stmt"/>
-        <line num="127" count="1" type="cond" truecount="3" falsecount="1"/>
-        <line num="129" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="130" count="0" type="stmt"/>
+        <line num="126" count="1" type="stmt"/>
+        <line num="128" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="130" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="131" count="0" type="stmt"/>
-        <line num="136" count="1" type="stmt"/>
-        <line num="137" count="1" type="cond" truecount="2" falsecount="0"/>
-        <line num="139" count="1" type="stmt"/>
+        <line num="132" count="0" type="stmt"/>
+        <line num="137" count="1" type="stmt"/>
+        <line num="138" count="1" type="cond" truecount="2" falsecount="0"/>
         <line num="140" count="1" type="stmt"/>
-        <line num="142" count="1" type="stmt"/>
+        <line num="141" count="1" type="stmt"/>
         <line num="143" count="1" type="stmt"/>
-        <line num="152" count="0" type="stmt"/>
+        <line num="144" count="1" type="stmt"/>
         <line num="153" count="0" type="stmt"/>
-        <line num="159" count="1" type="stmt"/>
-        <line num="163" count="1" type="stmt"/>
+        <line num="154" count="0" type="stmt"/>
+        <line num="160" count="1" type="stmt"/>
         <line num="164" count="1" type="stmt"/>
-        <line num="166" count="1" type="cond" truecount="3" falsecount="1"/>
-        <line num="168" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="169" count="0" type="stmt"/>
+        <line num="165" count="1" type="stmt"/>
+        <line num="167" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="169" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="170" count="0" type="stmt"/>
-        <line num="175" count="1" type="stmt"/>
-        <line num="176" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="176" count="1" type="stmt"/>
         <line num="177" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="179" count="1" type="stmt"/>
+        <line num="178" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="180" count="1" type="stmt"/>
-        <line num="182" count="1" type="stmt"/>
+        <line num="181" count="1" type="stmt"/>
         <line num="183" count="1" type="stmt"/>
-        <line num="185" count="1" type="stmt"/>
-        <line num="189" count="0" type="stmt"/>
+        <line num="184" count="1" type="stmt"/>
+        <line num="186" count="1" type="stmt"/>
         <line num="190" count="0" type="stmt"/>
+        <line num="191" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.middleware">
-      <metrics statements="58" coveredstatements="23" conditionals="10" coveredconditionals="1" methods="9" coveredmethods="5"/>
+      <metrics statements="47" coveredstatements="22" conditionals="7" coveredconditionals="1" methods="7" coveredmethods="5"/>
       <file name="cleanup.ts" path="C:\Users\GRIGS\express app task\app\src\middleware\cleanup.ts">
-        <metrics statements="44" coveredstatements="14" conditionals="9" coveredconditionals="1" methods="6" coveredmethods="2"/>
-        <line num="1" count="1" type="stmt"/>
+        <metrics statements="33" coveredstatements="13" conditionals="6" coveredconditionals="1" methods="4" coveredmethods="2"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="21" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="37" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="40" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="50" count="1" type="stmt"/>
-        <line num="54" count="3" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="22" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
         <line num="55" count="3" type="stmt"/>
         <line num="56" count="3" type="stmt"/>
         <line num="57" count="3" type="stmt"/>
-        <line num="59" count="3" type="cond" truecount="1" falsecount="0"/>
-        <line num="60" count="3" type="stmt"/>
+        <line num="58" count="3" type="stmt"/>
+        <line num="60" count="3" type="cond" truecount="1" falsecount="0"/>
         <line num="61" count="3" type="stmt"/>
-        <line num="65" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="66" count="0" type="stmt"/>
+        <line num="62" count="3" type="stmt"/>
+        <line num="66" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="67" count="0" type="stmt"/>
         <line num="68" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="73" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="77" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="74" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="75" count="0" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
         <line num="81" count="0" type="stmt"/>
+        <line num="82" count="0" type="stmt"/>
       </file>
       <file name="validate.ts" path="C:\Users\GRIGS\express app task\app\src\middleware\validate.ts">
         <metrics statements="14" coveredstatements="9" conditionals="1" coveredconditionals="0" methods="3" coveredmethods="3"/>
-        <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
         <line num="8" count="2" type="stmt"/>
-        <line num="9" count="9" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
         <line num="10" count="9" type="stmt"/>
         <line num="11" count="9" type="stmt"/>
         <line num="12" count="9" type="stmt"/>
-        <line num="18" count="9" type="stmt"/>
-        <line num="21" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
+        <line num="13" count="9" type="stmt"/>
+        <line num="19" count="9" type="stmt"/>
+        <line num="22" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
         <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.schema">
@@ -269,8 +258,7 @@
       <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <file name="request.ts" path="C:\Users\GRIGS\express app task\app\src\types\request.ts">
         <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="20" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="21" count="2" type="stmt"/>
+        <line num="21" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="22" count="2" type="stmt"/>
         <line num="23" count="2" type="stmt"/>
         <line num="24" count="2" type="stmt"/>
@@ -278,6 +266,7 @@
         <line num="26" count="2" type="stmt"/>
         <line num="27" count="2" type="stmt"/>
         <line num="28" count="2" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
       </file>
     </package>
     <package name="src.utils">
@@ -292,11 +281,11 @@
       </file>
       <file name="utils.ts" path="C:\Users\GRIGS\express app task\app\src\utils\utils.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
       </file>
     </package>
   </project>
