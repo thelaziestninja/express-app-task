@@ -1,10 +1,12 @@
-export const roots = ["<rootDir>"];
-export const transform = {
-  "^.+\\.ts?$": "ts-jest",
+module.exports = {
+  roots: ["<rootDir>"],
+  transform: {
+    "^.+\\.ts?$": "ts-jest",
+  },
+  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$",
+  moduleFileExtensions: ["ts", "js", "json", "node"],
+  collectCoverage: true,
+  clearMocks: true,
+  coverageDirectory: "coverage",
+  testTimeout: 10000,
 };
-export const testRegex = "(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$";
-export const moduleFileExtensions = ["ts", "js", "json", "node"];
-export const collectCoverage = true;
-export const clearMocks = true;
-export const coverageDirectory = "coverage";
-export const testTimeout = 10000;
