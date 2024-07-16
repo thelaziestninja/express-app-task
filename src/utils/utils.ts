@@ -1,11 +1,9 @@
-import MinHeap from "../structures/MinHeap";
 import { StoreElement } from "../types";
 
 export const setTimeoutId = (
   key: string,
   ttl: number,
-  storeWithTTL: Map<string, StoreElement>,
-  heapWithTTL: MinHeap // Fix: Make MinHeap generic by specifying the type parameter
+  storeWithTTL: Map<string, StoreElement>
 ): NodeJS.Timeout => {
   const timeoutId = setTimeout(() => {
     storeWithTTL.delete(key);

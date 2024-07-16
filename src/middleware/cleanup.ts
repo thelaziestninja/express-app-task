@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ZodError } from "zod";
 import logger from "../utils/logger";
 import { Request, Response, NextFunction } from "express";
@@ -6,7 +7,7 @@ import {
   storeWithTTL,
   storeWithoutTTL,
   minHeapWithTTL,
-  minHeapWithoutTTL,
+  // minHeapWithoutTTL,
 } from "../controller/store.controller";
 
 const cleanupHeapWithTTL = async () => {
@@ -28,24 +29,24 @@ const cleanupHeapWithTTL = async () => {
   }
 };
 
-const cleanupHeapWithoutTTL = async () => {
-  let totalKeys = storeWithTTL.size + storeWithoutTTL.size;
-  const deletionThreshold = maxKeys * threshold;
+// const cleanupHeapWithoutTTL = async () => {
+//   let totalKeys = storeWithTTL.size + storeWithoutTTL.size;
+//   const deletionThreshold = maxKeys * threshold;
 
-  while (totalKeys > deletionThreshold) {
-    const removedElement = minHeapWithoutTTL.pop();
-    if (removedElement) {
-      const { key } = removedElement;
+//   while (totalKeys > deletionThreshold) {
+//     const removedElement = minHeapWithoutTTL.pop();
+//     if (removedElement) {
+//       const { key } = removedElement;
 
-      if (storeWithoutTTL.has(key)) {
-        storeWithoutTTL.delete(key);
-      }
-      totalKeys = storeWithoutTTL.size + storeWithTTL.size;
-    } else {
-      break;
-    }
-  }
-};
+//       if (storeWithoutTTL.has(key)) {
+//         storeWithoutTTL.delete(key);
+//       }
+//       totalKeys = storeWithoutTTL.size + storeWithTTL.size;
+//     } else {
+//       break;
+//     }
+//   }
+// };
 
 export const cleanupKeys = async (
   req: Request,
@@ -53,7 +54,7 @@ export const cleanupKeys = async (
   next: NextFunction
 ) => {
   try {
-    let totalKeys = storeWithTTL.size + storeWithoutTTL.size;
+    const totalKeys = storeWithTTL.size + storeWithoutTTL.size;
     const deletionThreshold = maxKeys * threshold;
 
     if (totalKeys <= deletionThreshold) {

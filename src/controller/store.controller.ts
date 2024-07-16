@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StoreElement } from "../types";
 import {
   Request,
@@ -40,7 +41,7 @@ export async function AddToStoreHandler(
 
     let timeoutId: NodeJS.Timeout | undefined;
     if (ttl) {
-      timeoutId = setTimeoutId(key, Number(ttl), storeWithTTL, minHeapWithTTL);
+      timeoutId = setTimeoutId(key, Number(ttl), storeWithTTL); //minHeapWithTTL
     }
 
     const data: StoreElement = {
