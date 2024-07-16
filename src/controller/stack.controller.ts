@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Stack } from "../types";
 import logger from "../utils/logger";
 import { StackInput } from "../schema/stack.schema";
