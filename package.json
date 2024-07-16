@@ -7,7 +7,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "test": "jest",
     "build": "tsc",
-    "lint": "npx eslint ."
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
