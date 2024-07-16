@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc",
+    "lint": "eslint 'src/**/*.{ts,tsx}'"
   },
   "keywords": [],
   "author": "",
