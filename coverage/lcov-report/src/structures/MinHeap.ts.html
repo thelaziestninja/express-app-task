@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/middleware/cleanup.ts</title>
+    <title>Code coverage report for src/structures/MinHeap.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/middleware</a> cleanup.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/structures</a> MinHeap.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.91% </span>
+                <span class="strong">40.81% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/47</span>
+                <span class='fraction'>20/49</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">27.27% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/9</span>
+                <span class='fraction'>9/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/6</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">31.81% </span>
+                <span class="strong">41.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/44</span>
+                <span class='fraction'>20/48</span>
             </div>
         
             
@@ -146,172 +146,220 @@
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ZodError } from "zod";
-import logger from "../utils/logger";
-import { Request, Response, NextFunction } from "express";
-import { maxKeys, threshold } from "../../config/default";
-import {
-  storeWithTTL,
-  storeWithoutTTL,
-  minHeapWithTTL,
-  minHeapWithoutTTL,
-} from "../controller/store.controller";
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { StoreElement } from "../types";
 &nbsp;
-const cleanupHeapWithTTL = <span class="fstat-no" title="function not covered" >async () =</span>&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  let totalKeys = <span class="cstat-no" title="statement not covered" >storeWithTTL.size + storeWithoutTTL.size;</span>
-  const deletionThreshold = <span class="cstat-no" title="statement not covered" >maxKeys * threshold;</span>
+class MinHeap {
+  private heap: StoreElement[];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  while (totalKeys &gt; deletionThreshold) {</span>
-    const removedElement = <span class="cstat-no" title="statement not covered" >minHeapWithTTL.pop();</span>
-<span class="cstat-no" title="statement not covered" >    if (removedElement) {</span>
-      const { key } = <span class="cstat-no" title="statement not covered" >removedElement;</span>
+  constructor() {
+    this.heap = [];
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (storeWithTTL.has(key)) {</span>
-<span class="cstat-no" title="statement not covered" >        storeWithTTL.delete(key);</span>
+  add(item: StoreElement) {
+    item.heapIndex = this.heap.length;
+    this.heap.push(item);
+    this.heapifyUp(this.heap.length - 1);
+  }
+&nbsp;
+  remove(item: StoreElement): void {
+    const index = item.heapIndex;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (index === undefined || index &lt; 0 || index &gt;= this.heap.length)
+<span class="cstat-no" title="statement not covered" >      return undefined;</span>
+&nbsp;
+    this.swap(index, this.heap.length - 1);
+    this.heap.pop();
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.heap.length &gt; 0 &amp;&amp; index &lt; this.heap.length) {
+<span class="cstat-no" title="statement not covered" >      this.heapifyDown(index);</span>
+<span class="cstat-no" title="statement not covered" >      this.heapifyUp(index);</span>
+    }
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  pop(</span>) {
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.heap.length === 0) <span class="cstat-no" title="statement not covered" >return undefined;</span></span>
+    const min = <span class="cstat-no" title="statement not covered" >this.heap[0];</span>
+    const end = <span class="cstat-no" title="statement not covered" >this.heap.pop();</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.heap.length &gt; 0 &amp;&amp; end !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >      this.heap[0] = end;</span>
+<span class="cstat-no" title="statement not covered" >      this.heap[0].heapIndex = 0;</span>
+<span class="cstat-no" title="statement not covered" >      this.heapifyDown(0);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return min;</span>
+  }
+&nbsp;
+  heapifyUp(index: number) {
+    let curr = index;
+    while (curr &gt; 0) {
+      const parent = Math.floor((curr - 1) / 2);
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (this.compare(this.heap[curr], this.heap[parent]) &lt; 0) {
+<span class="cstat-no" title="statement not covered" >        this.swap(curr, parent);</span>
+<span class="cstat-no" title="statement not covered" >        curr = parent;</span>
+      } else {
+        break;
       }
-<span class="cstat-no" title="statement not covered" >      totalKeys = storeWithoutTTL.size + storeWithTTL.size;</span>
-    } else {
-<span class="cstat-no" title="statement not covered" >      break;</span>
     }
   }
-};
 &nbsp;
-const cleanupHeapWithoutTTL = <span class="fstat-no" title="function not covered" >async () =</span>&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span>
-  let totalKeys = <span class="cstat-no" title="statement not covered" >storeWithTTL.size + storeWithoutTTL.size;</span>
-  const deletionThreshold = <span class="cstat-no" title="statement not covered" >maxKeys * threshold;</span>
+<span class="fstat-no" title="function not covered" >  heapifyDown(</span>heapIndex: number) {
+    let curr = <span class="cstat-no" title="statement not covered" >heapIndex;</span>
+    const last = <span class="cstat-no" title="statement not covered" >this.heap.length - 1;</span>
+<span class="cstat-no" title="statement not covered" >    while (true) {</span>
+      let smallest = <span class="cstat-no" title="statement not covered" >curr;</span>
+      const leftChild = <span class="cstat-no" title="statement not covered" >2 * curr + 1;</span>
+      const rightChild = <span class="cstat-no" title="statement not covered" >2 * curr + 2;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  while (totalKeys &gt; deletionThreshold) {</span>
-    const removedElement = <span class="cstat-no" title="statement not covered" >minHeapWithoutTTL.pop();</span>
-<span class="cstat-no" title="statement not covered" >    if (removedElement) {</span>
-      const { key } = <span class="cstat-no" title="statement not covered" >removedElement;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (storeWithoutTTL.has(key)) {</span>
-<span class="cstat-no" title="statement not covered" >        storeWithoutTTL.delete(key);</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+        leftChild &lt;= this.heap.length &amp;&amp;
+        this.compare(this.heap[leftChild], this.heap[smallest]) &lt; 0
+      ) {
+<span class="cstat-no" title="statement not covered" >        smallest = leftChild;</span>
       }
-<span class="cstat-no" title="statement not covered" >      totalKeys = storeWithoutTTL.size + storeWithTTL.size;</span>
-    } else {
-<span class="cstat-no" title="statement not covered" >      break;</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (</span>
+        rightChild &lt;= last &amp;&amp;
+        this.compare(this.heap[rightChild], this.heap[smallest]) &lt; 0
+      ) {
+<span class="cstat-no" title="statement not covered" >        smallest = rightChild;</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (smallest === curr) {</span>
+<span class="cstat-no" title="statement not covered" >        break;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      this.swap(curr, smallest);</span>
+<span class="cstat-no" title="statement not covered" >      curr = smallest;</span>
     }
   }
-};
 &nbsp;
-export const cleanupKeys = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) =&gt; {
-  try {
-    let totalKeys = storeWithTTL.size + storeWithoutTTL.size;
-    const deletionThreshold = maxKeys * threshold;
-&nbsp;
-    if (totalKeys &lt;= deletionThreshold) {
-      logger.info("Total keys are within the threshold. No cleanup needed.");
-      return next();
+  compare(a: StoreElement, b: StoreElement) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (a.count !== (b.count ?? <span class="branch-1 cbranch-no" title="branch not covered" >0)</span>) {
+<span class="cstat-no" title="statement not covered" >      return (a.count ?? 0) - (b.count ?? 0);</span>
     }
-    // await cleanupHeapWithoutTTL();
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (totalKeys &gt; deletionThreshold) {</span>
-<span class="cstat-no" title="statement not covered" >      logger.info("Started checking for keys with TTL to delete in store");</span>
-<span class="cstat-no" title="statement not covered" >      await cleanupHeapWithTTL();</span>
-<span class="cstat-no" title="statement not covered" >      console.log("storeWithTTL", storeWithTTL.size);</span>
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    next();</span>
-  } catch (e: any) {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (e instanceof ZodError) {</span>
-<span class="cstat-no" title="statement not covered" >      logger.info(</span>
-        `Zod Error in validation request body middleware: ${e.issues[0].message}`
-      );
-<span class="cstat-no" title="statement not covered" >      return res.status(400).send({ msg: e.issues[0].message });</span>
-    }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    logger.info(`Error in cleanupKeys middleware: ${e.message}`);</span>
-<span class="cstat-no" title="statement not covered" >    return res.status(500).send(e.message);</span>
+    return Number(a.created_at) - Number(b.created_at);
   }
-};
+&nbsp;
+  swap(i: number, j: number) {
+    [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
+    this.heap[i].heapIndex = i;
+    this.heap[j].heapIndex = j;
+  }
+}
+//nqkude mejdu tezi dve metoda heapify up i heapify down trqbva da promenqm i index-a na samiq item
+&nbsp;
+export default MinHeap;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
