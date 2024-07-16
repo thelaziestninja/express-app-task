@@ -4,13 +4,13 @@ import { Express } from "express";
 import logger from "../src/utils/logger";
 import { createServer, Server } from "http";
 import { validateRequestData } from "../src/middleware/validate";
-import { store } from "../src/controller/store.controller";
 import {
   AddToStoreHandler,
   DeleteKeyHandler,
   GetKeyHandler,
-  GetStoreHandler,
   UpdateKeyHandler,
+  storeWithTTL,
+  storeWithoutTTL,
 } from "../src/controller/store.controller";
 import {
   StoreParams,
@@ -29,9 +29,9 @@ describe("Store Operations", () => {
 
     app.use(express.json());
 
-    if (process.env.NODE_ENV !== "production") {
-      app.get("/store", GetStoreHandler);
-    }
+    // if (process.env.NODE_ENV !== "production") {
+    //   app.get("/store", GetStoreHandler);
+    // }
 
     app.post("/store", validateRequestData(StoreSchema), AddToStoreHandler);
 
@@ -60,28 +60,9 @@ describe("Store Operations", () => {
   });
 
   beforeEach(() => {
-    Object.keys(store).forEach((key) => delete store[key]);
+    storeWithTTL.clear();
+    storeWithoutTTL.clear();
     jest.clearAllMocks();
-  });
-
-  it("should get the store", async () => {
-    const itemToAdd = { key: "testKey", value: "testValue" };
-    const firstResponse = await request(app).post("/store").send(itemToAdd);
-
-    expect(firstResponse.status).toBe(201);
-    expect(firstResponse.body.message).toEqual("key-value pair added to store");
-    expect(firstResponse.body.store).toEqual({
-      testKey: { value: "testValue", created_at: expect.any(String) },
-    });
-
-    store.testKey = { value: "testValue", created_at: new Date(), count: 1 };
-
-    const response = await request(app).get("/store");
-
-    expect(response.status).toBe(200);
-    expect(response.body.store).toEqual({
-      testKey: { value: "testValue", created_at: expect.any(String), count: 1 },
-    });
   });
 
   it("should add an item to the store", async () => {
@@ -90,8 +71,12 @@ describe("Store Operations", () => {
 
     expect(response.status).toBe(201);
     expect(response.body.message).toEqual("key-value pair added to store");
-    expect(response.body.store).toEqual({
-      testKey: { value: "testValue", created_at: expect.any(String) },
+    expect(response.body).toEqual({
+      message: "key-value pair added to store",
+      key: "testKey",
+      value: "testValue",
+      ttl: undefined,
+      created_at: expect.any(String),
     });
   });
 
@@ -101,15 +86,13 @@ describe("Store Operations", () => {
 
     expect(firstResponse.status).toBe(201);
     expect(firstResponse.body.message).toEqual("key-value pair added to store");
-    expect(firstResponse.body.store).toEqual({
-      testKey: { value: "testValue", created_at: expect.any(String) },
-    });
-
-    store.testKey = {
+    expect(firstResponse.body).toEqual({
+      message: "key-value pair added to store",
+      key: "testKey",
       value: "testValue",
-      created_at: new Date(),
-      count: 1,
-    };
+      ttl: undefined,
+      created_at: expect.any(String),
+    });
 
     const response = await request(app).get("/store/testKey");
 
@@ -117,7 +100,7 @@ describe("Store Operations", () => {
     expect(response.body.message).toEqual("Key found in store");
     expect(response.body.key).toEqual("testKey");
     expect(response.body.value).toEqual("testValue");
-    expect(response.body.count).toEqual(2);
+    expect(response.body.count).toEqual(1);
     expect(response.body.created_at).toEqual(expect.any(String));
   });
 
@@ -129,11 +112,18 @@ describe("Store Operations", () => {
 
     expect(firstResponse.status).toBe(201);
     expect(firstResponse.body.message).toEqual("key-value pair added to store");
-    expect(firstResponse.body.store).toEqual({
-      testKey: { value: "testValue", created_at: expect.any(String) },
+    expect(firstResponse.body).toEqual({
+      message: "key-value pair added to store",
+      key: "testKey",
+      value: "testValue",
+      ttl: 1,
+      created_at: expect.any(String),
     });
 
-    const response = await request(app).get("/store/expiredKey");
+    // Wait for the TTL to expire
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    const response = await request(app).get("/store/testKey");
 
     expect(response.status).toBe(400);
     expect(response.body.message).toEqual("Key not found in store");
@@ -145,11 +135,13 @@ describe("Store Operations", () => {
 
     expect(firstResponse.status).toBe(201);
     expect(firstResponse.body.message).toEqual("key-value pair added to store");
-    expect(firstResponse.body.store).toEqual({
-      testKey: { value: "testValue", created_at: expect.any(String) },
+    expect(firstResponse.body).toEqual({
+      message: "key-value pair added to store",
+      key: "testKey",
+      value: "testValue",
+      ttl: undefined,
+      created_at: expect.any(String),
     });
-
-    store.testKey = { value: "testValue", created_at: new Date(), count: 1 };
 
     const response = await request(app)
       .patch("/store/testKey")
@@ -157,31 +149,37 @@ describe("Store Operations", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.message).toEqual("key-value pair updated in store");
-    expect(response.body.store).toEqual({
-      testKey: {
-        value: "updatedValue",
-        created_at: expect.any(String),
-        count: 2,
-      },
+    expect(response.body).toEqual({
+      message: "key-value pair updated in store",
+      key: "testKey",
+      value: "updatedValue",
+      ttl: undefined,
+      count: 1, // Initial count is 0, incremented to 1
+      created_at: expect.any(String),
     });
   });
 
   it("should delete a key from the store", async () => {
-    const itemToAdd = { key: "testKey", value: "testValue" };
+    const itemToAdd = { key: "testKey", value: "testValue", ttl: 1 };
     const firstResponse = await request(app).post("/store").send(itemToAdd);
 
     expect(firstResponse.status).toBe(201);
     expect(firstResponse.body.message).toEqual("key-value pair added to store");
-    expect(firstResponse.body.store).toEqual({
-      testKey: { value: "testValue", created_at: expect.any(String) },
+    expect(firstResponse.body).toEqual({
+      message: "key-value pair added to store",
+      key: "testKey",
+      value: "testValue",
+      ttl: 1,
+      created_at: expect.any(String),
     });
-
-    store.testKey = { value: "testValue", created_at: new Date() };
 
     const response = await request(app).delete("/store/testKey");
 
     expect(response.status).toBe(200);
     expect(response.body.message).toEqual("key deleted from store");
-    expect(response.body.store).toEqual({});
+    expect(response.body).toEqual({
+      message: "key deleted from store",
+      key: "testKey",
+    });
   });
 });
