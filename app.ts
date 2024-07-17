@@ -1,8 +1,8 @@
 import cors from "cors";
 import config from "config";
 import express from "express";
-import routes from "./routes";
-import logger from "./utils/logger";
+import routes from "./src/routes";
+import logger from "./src/utils/logger";
 
 const port = config.get<number>("port");
 

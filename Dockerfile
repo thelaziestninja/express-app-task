@@ -16,6 +16,9 @@ COPY . .
 # Compile TypeScript to JavaScript
 RUN npm run build
 
+# List the contents of the dist directory to verify compilation
+RUN ls -la dist
+
 # Expose the port your app runs on
 EXPOSE 3000
 

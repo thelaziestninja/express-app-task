@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cors_1 = __importDefault(require("cors"));
 const config_1 = __importDefault(require("config"));
 const express_1 = __importDefault(require("express"));
-const routes_1 = __importDefault(require("./routes"));
-const logger_1 = __importDefault(require("./utils/logger"));
+const routes_1 = __importDefault(require("./src/routes"));
+const logger_1 = __importDefault(require("./src/utils/logger"));
 const port = config_1.default.get("port");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
