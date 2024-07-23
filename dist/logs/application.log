@@ -1,0 +1,11 @@
+{"level":30,"time":1721739003899,"pid":1,"hostname":"e7e9a50120e0","msg":"Logger initialized"}
+{"level":30,"time":1721739003916,"pid":1,"hostname":"e7e9a50120e0","msg":"Application has started"}
+{"level":30,"time":1721739003917,"pid":1,"hostname":"e7e9a50120e0","msg":"App is running at port 3002!"}
+{"level":30,"time":1721739017786,"pid":1,"hostname":"e7e9a50120e0","msg":"Validating request body or request params"}
+{"level":30,"time":1721739017787,"pid":1,"hostname":"e7e9a50120e0","msg":"Add item to stack called"}
+{"level":30,"time":1721739017787,"pid":1,"hostname":"e7e9a50120e0","msg":"Stack length is 0"}
+{"level":30,"time":1721739017787,"pid":1,"hostname":"e7e9a50120e0","msg":"Item added to stack - 2"}
+{"level":30,"time":1721739021301,"pid":1,"hostname":"e7e9a50120e0","msg":"Validating request body or request params"}
+{"level":30,"time":1721739021301,"pid":1,"hostname":"e7e9a50120e0","msg":"Add item to stack called"}
+{"level":30,"time":1721739021301,"pid":1,"hostname":"e7e9a50120e0","msg":"Stack length is 1"}
+{"level":30,"time":1721739021301,"pid":1,"hostname":"e7e9a50120e0","msg":"Item added to stack - 4,5,6"}

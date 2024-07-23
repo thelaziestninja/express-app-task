@@ -23,9 +23,14 @@ app.use((0, cors_1.default)({
     origin: "http://localhost:5173",
 }));
 app.use(express_1.default.json());
+app.get("/test", (req, res) => {
+    logger_1.default.info("Test endpoint hit");
+    res.send("Hello World");
+});
 if (process.env.NODE_ENV !== "test") {
     app.listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
         logger_1.default.info(`App is running at port ${port}!`);
         (0, routes_1.default)(app);
     }));
 }
+logger_1.default.info("Application has started");

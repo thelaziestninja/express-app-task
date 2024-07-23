@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  node-app:
+    build: .
+    container_name: node-app
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+    volumes:
+      - ./dist/logs:/var/log  # Ensure this matches the logger path
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  loki:
+    image: grafana/loki:2.4.1
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    user: root  # Run as root to avoid permission issues
+    volumes:
+      - ./loki/config:/etc/loki
+      - ./loki/data:/loki  # Ensure this directory exists and is writable
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    volumes:
+      - ./dist/logs:/var/log  # Ensure this matches the node-app logs volume
+      - ./promtail/config:/etc/promtail
+    command: -config.file=/etc/promtail/promtail-config.yaml
+
+  grafana:
+    image: grafana/grafana:8.3.1
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  grafana-storage:
+  node_modules:

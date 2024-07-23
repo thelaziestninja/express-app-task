@@ -22,3 +22,5 @@ if (process.env.NODE_ENV !== "test") {
     routes(app);
   });
 }
+
+logger.info("Application has started");
